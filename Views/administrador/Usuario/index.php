@@ -101,10 +101,10 @@
 				type: 'post',
 				data:{
 					nombre:$('#inputnombre_u').val(),apellido:$('#inputapellido_u').val(),
-					estado_ci:$('#inputci_u').val(),ci:$('#inputci_u').attr('placeholder'),
+					ci_original:$('#inputci_u').val(),ci:$('#inputci_u').attr('placeholder'),
 					id_cargo:$('#selectcargo_u option:selected').val(),id_unidad:$('#selectunidad_u option:selected').val(),
 					telefono:$('#inputtelefono_u').val(),
-					estado_password:$('#inputpassword').val(),password:psw_u
+					password:$('#inputpassword').val(),password_original:psw_u
 				},
 				success:function(obj){
 					if (obj=="false") {
