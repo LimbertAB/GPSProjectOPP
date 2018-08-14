@@ -16,32 +16,25 @@ class Usuario extends Controllers{
      }
      public function crear(){
           $this->usuario->set("nombre",$_POST['nombre']);
-          $this->usuario->set("apellido",$_POST['apellido']);
           $this->usuario->set("ci",$_POST['ci']);
           $this->usuario->set("password", password_hash($_POST['password'], PASSWORD_BCRYPT));
-          $this->usuario->set("id_cargo",$_POST['id_cargo']);
-          $this->usuario->set("id_unidad",$_POST['id_unidad']);
-          $this->usuario->set("telefono",$_POST['telefono']);
+          $this->usuario->set("tipo",$_POST['tipo']);
           $resultado=$this->usuario->crear();
           echo $resultado;
      }
      public function editar($id){
-         $this->usuario->set("id",$id);
-         $this->usuario->set("ci_original",$_POST['ci_original']);
-         $this->usuario->set("password_original",$_POST['password_original']);
-         $this->usuario->set("nombre",$_POST['nombre']);
-         $this->usuario->set("apellido",$_POST['apellido']);
-         $this->usuario->set("ci",$_POST['ci']);
-         $this->usuario->set("password",$_POST['password']);
-         $this->usuario->set("id_cargo",$_POST['id_cargo']);
-         $this->usuario->set("id_unidad",$_POST['id_unidad']);
-         $this->usuario->set("telefono",$_POST['telefono']);
-         $resultado=$this->usuario->editar();
-         echo $resultado;
+          $this->usuario->set("id",$id);
+          $this->usuario->set("nombre",$_POST['nombre']);
+          $this->usuario->set("ci",$_POST['ci']);
+          $this->usuario->set("tipo",$_POST['tipo']);
+          $this->usuario->set("password",$_POST['password']);
+          $this->usuario->set("id_persona",$_POST['id_persona']);
+          $resultado=$this->usuario->editar();
+          echo $resultado;
      }
      public function eliminar($id){
-         $this->usuario->set('id',$id);
-         $this->usuario->eliminar();
+          $this->usuario->set('id',$id);
+          $this->usuario->eliminar();
      }
 
      public function userLogin(){

@@ -92,6 +92,17 @@
 						</li>
 						<li class="treeview">
 							<a href="#">
+								<i class="fa fa-user"></i>
+								<span>Persona</span>
+								<i class="fa fa-angle-left pull-right"></i>
+							</a>
+							<ul class="treeview-menu">
+								<li><a href="/<?php echo FOLDER; ?>/Responsable"><i class="fa fa-circle-o"></i>Responsables</a></li>
+								<li><a href="/<?php echo FOLDER; ?>/Chofer"><i class="fa fa-circle-o"></i>Choferes</a></li>
+							</ul>
+						</li>
+						<li class="treeview">
+							<a href="#">
 								<i class="fa fa-medkit"></i>
 								<span>Actividades</span>
 								<i class="fa fa-angle-left pull-right"></i>
@@ -103,7 +114,7 @@
 						</li>
 						<li class="treeview">
 							<a href="#">
-								<i class="fa fa-h-square"></i>
+								<i class="fa fa-institution"></i>
 								<span>Lugares</span>
 								<i class="fa fa-angle-left pull-right"></i>
 							</a>
@@ -111,9 +122,15 @@
 								<li><a href="/<?php echo FOLDER; ?>/Jefatura"><i class="fa fa-circle-o"></i>Jefaturas</a></li>
 								<li><a href="/<?php echo FOLDER; ?>/Unidad"><i class="fa fa-circle-o"></i>Unidades</a></li>
 							</ul>
+						</li>
 						<li class="treeview">
 							<a href="/<?php echo FOLDER; ?>/Vehiculo" style="cursor:pointer">
-								<i class="fa fa-ambulance"></i><span>Vehiculos</span>
+								<i class="fa fa-car"></i><span>Vehiculos</span>
+							</a>
+						</li>
+						<li class="treeview">
+							<a href="#" style="cursor:pointer">
+								<i class="fa fa-map-marker"></i><span>GPS</span>
 							</a>
 						</li>
 						<li class="treeview">
@@ -130,7 +147,7 @@
 						</li>
 						<li>
 							<a href="/<?php echo FOLDER; ?>/Usuario" style="cursor:pointer">
-								<i class="fa fa-user-md"></i><span>Usuarios</span>
+								<i class="fa fa-group"></i><span>Usuarios</span>
 							</a>
 						</li>
 						<li class="treeview">
@@ -148,6 +165,11 @@
 							<a href="#" style="cursor:pointer">
 								<i class="fa fa-bell"></i> <span>Notificaciones</span>
 								<small class="label pull-right bg-red" style="display:none" id="cantobject"></small>
+							</a>
+						</li>
+						<li>
+							<a href="/<?php echo FOLDER;?>" style="cursor:pointer">
+								<i class="fa fa-sign-out"></i> <span>Salir</span>
 							</a>
 						</li>
 					</ul>

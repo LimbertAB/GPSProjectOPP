@@ -27,40 +27,30 @@
                }
           }
           public function listar(){
-               $user="SELECT p.id,p.ci,p.nombre,p.apellido,u.nombre as unidad,j.nombre as jefatura,c.nombre as cargo FROM usuario as p
-                    JOIN cargo as c ON c.id = p.id_cargo
-                    JOIN unidad as u ON u.id = p.id_unidad
-                    JOIN jefatura as j ON j.id = u.id_jefatura
-                    WHERE p.estado = b'1'";
-               $unidad="SELECT u.id,u.nombre,j.nombre as jefatura FROM unidad as u
-                    JOIN jefatura as j ON j.id = u.id_jefatura
-                    WHERE u.estado=b'1'";
-               $cargo="SELECT * FROM cargo WHERE estado=b'1'";
+               $user="SELECT p.nombre,p.tipo,u.ci,u.id FROM usuario as u
+                    JOIN persona as p ON u.id_persona = p.id WHERE p.estado = '1'";
+               $super="SELECT p.nombre,p.tipo,p.estado,u.ci,u.id FROM usuario as u
+                    JOIN persona as p ON u.id_persona = p.id WHERE p.estado = '1' AND p.tipo=0";
+               $administrador="SELECT p.nombre,p.tipo,p.estado,u.ci,u.id FROM usuario as u
+                    JOIN persona as p ON u.id_persona = p.id WHERE p.estado = '1' AND p.tipo=1";
+               $transporte="SELECT p.nombre,p.tipo,p.estado,u.ci,u.id FROM usuario as u
+                    JOIN persona as p ON u.id_persona = p.id WHERE p.estado = '1' AND p.tipo=2";
+               $bajas="SELECT p.nombre,p.tipo,p.estado,u.ci,u.id FROM usuario as u
+                    JOIN persona as p ON u.id_persona = p.id WHERE p.estado = '0'";
                $result=["usuarios"=> parent::consultaRetorno($user),
-                         "unidades"=> parent::consultaRetorno($unidad),
-                         "cargos"=> parent::consultaRetorno($cargo)
+                         "super"=> parent::consultaRetorno($super),
+                         "administrador"=> parent::consultaRetorno($administrador),
+                         "transporte"=> parent::consultaRetorno($transporte),
+                         "bajas"=> parent::consultaRetorno($bajas)
                ];
                return $result;
           }
           public function ver(){
-               $sql="SELECT u.id,u.ci,u.nombre,u.apellido,u.id_unidad,u.id_cargo,u.telefono,u.password,n.nombre as unidad,j.nombre as jefatura,c.nombre as cargo FROM usuario as u
-                    JOIN cargo as c ON c.id = u.id_cargo
-                    JOIN unidad as n ON n.id = u.id_unidad
-                    JOIN jefatura as j ON j.id = n.id_jefatura
+               $sql="SELECT p.nombre,p.tipo,p.estado,u.ci,u.id,u.id_persona FROM usuario as u
+                    JOIN persona as p ON p.id = u.id_persona
                     WHERE u.id = '{$this->id}' LIMIT 1";
                $resultado = parent::consultaRetorno($sql);
-               $row=mysql_fetch_array($resultado);
-               $this->id=$row['id'];
-               $this->ci=$row['ci'];
-               $this->nombre=$row['nombre'];
-               $this->apellido=$row['apellido'];
-               $this->id_unidad=$row['id_unidad'];
-               $this->id_cargo=$row['id_cargo'];
-               $this->telefono=$row['telefono'];
-               $this->cargo=$row['cargo'];
-               $this->jefatura=$row['jefatura'];
-               $this->unidad=$row['unidad'];
-               $this->password=$row['password'];
+               $row=mysql_fetch_assoc($resultado);
                return $row;
           }
           public function crear(){
@@ -68,29 +58,42 @@
                if($ver_ci != 0){
                     return "false";
                }else{
-                    $sql=("INSERT INTO usuario(ci, nombre, apellido, id_cargo,telefono,id_unidad,password) VALUES(
-                         '{$this->ci}','{$this->nombre}','{$this->apellido}','{$this->id_cargo}','{$this->telefono}','{$this->id_unidad}','{$this->password}')");
+                    $date=date("Y-m-d H:i:s");
+                    $sql=("INSERT INTO persona(id_unidad,nombre, tipo, created_at) VALUES(0,'{$this->nombre}','{$this->tipo}','{$date}')");
                     parent::consultaSimple($sql);
+                    $id_persona=mysql_insert_id();
+                    $sql2=("INSERT INTO usuario(id_persona,ci,password) VALUES(
+                         '{$id_persona}','{$this->ci}','{$this->password}')");
+                    parent::consultaSimple($sql2);
                     return "El Usuario se Registro Satisfactoriamente";
                }
           }
           public function editar(){
-               if($this->password == ""){$password_insert=$this->password_original;}else{$password_insert=password_hash($this->password, PASSWORD_BCRYPT);}
-
-               if($this->ci_original==$this->ci){
-                    $sql=("UPDATE usuario SET ci='{$this->ci_original}',nombre='{$this->nombre}',
-                         apellido='{$this->apellido}',id_unidad='{$this->id_unidad}',
-                         id_cargo='{$this->id_cargo}',telefono='{$this->telefono}',
-                         password='{$password_insert}' WHERE id='{$this->id}'");
+               if($this->ci==""){
+                    if($this->password != ""){
+                         $password_insert=password_hash($this->password, PASSWORD_BCRYPT);
+                         $sql=("UPDATE usuario SET password='{$password_insert}' WHERE id='{$this->id}'");
+                         parent::consultaSimple($sql);
+                    }
                }else{
                     $ver_ci=$this->ver_ci();
                     if($ver_ci != 0){
                          return "false";
                     }else{
-                         $sql=("UPDATE usuario SET ci='{$this->estado_ci}',nombre='{$this->nombre}', apellido='{$this->apellido}',id_unidad='{$this->id_unidad}',id_cargo='{$this->id_cargo}',telefono='{$this->telefono}',password='{$password_insert}' WHERE id='{$this->id}'");
+                         if($this->password != ""){
+                              $password_insert=password_hash($this->password, PASSWORD_BCRYPT);
+                              $sql2=("UPDATE usuario SET ci='{$this->ci}',password='{$password_insert}' WHERE id='{$this->id}'");
+                         }else{
+                              $sql2=("UPDATE usuario SET ci='{$this->ci}' WHERE id='{$this->id}'");
+                         }
+                         parent::consultaSimple($sql2);
                     }
                }
-               parent::consultaSimple($sql);
+               $date=date("Y-m-d H:i:s");
+               $sql3=("UPDATE persona SET nombre='{$this->nombre}',
+                    tipo='{$this->tipo}',
+                    updated_at='{$date}' WHERE id='{$this->id_persona}'");
+               parent::consultaSimple($sql3);
                return "El Usuario se Modifico Satisfactoriamente";
           }
           public function eliminar(){
