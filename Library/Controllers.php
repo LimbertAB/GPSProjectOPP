@@ -1,9 +1,8 @@
 <?php
      class Controllers{
-          public $data;
           public function __construct(){
-               Session::start();
                $this->view=new Views();
+               $this->pdf=new Createpdf();
           }
           public function loadClassmodels($model){
                $path='Models/'.$model.'.php';

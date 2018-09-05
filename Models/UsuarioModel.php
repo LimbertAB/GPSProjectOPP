@@ -11,9 +11,9 @@
                return $this->$atributo;
           }
           public function login(){
-              //$sql="SELECT *FROM usuario WHERE estado = 1" ;
-               $auth="SELECT id,ci,nombre,apellido,id_cargo,password FROM usuario
-                    WHERE ci = '{$this->ci}' and estado=b'1'";
+               $auth="SELECT u.id,u.id_persona,p.tipo,p.nombre,u.password FROM usuario as u
+                    JOIN persona as p ON p.id=u.id_persona
+                    WHERE u.ci = '{$this->ci}' and p.estado='1'";
                $result= parent::consultaRetorno($auth);
                if(mysql_num_rows($result)==1){
                     $rows= mysql_fetch_assoc($result);
@@ -27,15 +27,15 @@
                }
           }
           public function listar(){
-               $user="SELECT p.nombre,p.tipo,u.ci,u.id FROM usuario as u
+               $user="SELECT p.nombre,p.id as id_persona,p.tipo,u.ci,u.id FROM usuario as u
                     JOIN persona as p ON u.id_persona = p.id WHERE p.estado = '1'";
-               $super="SELECT p.nombre,p.tipo,p.estado,u.ci,u.id FROM usuario as u
+               $super="SELECT p.nombre,p.id as id_persona,p.tipo,p.estado,u.ci,u.id FROM usuario as u
                     JOIN persona as p ON u.id_persona = p.id WHERE p.estado = '1' AND p.tipo=0";
-               $administrador="SELECT p.nombre,p.tipo,p.estado,u.ci,u.id FROM usuario as u
+               $administrador="SELECT p.nombre,p.id as id_persona,p.tipo,p.estado,u.ci,u.id FROM usuario as u
                     JOIN persona as p ON u.id_persona = p.id WHERE p.estado = '1' AND p.tipo=1";
-               $transporte="SELECT p.nombre,p.tipo,p.estado,u.ci,u.id FROM usuario as u
+               $transporte="SELECT p.nombre,p.tipo,p.id as id_persona,p.estado,p.id as id_persona,u.ci,u.id FROM usuario as u
                     JOIN persona as p ON u.id_persona = p.id WHERE p.estado = '1' AND p.tipo=2";
-               $bajas="SELECT p.nombre,p.tipo,p.estado,u.ci,u.id FROM usuario as u
+               $bajas="SELECT p.nombre,p.tipo,p.estado,p.id as id_persona,u.ci,u.id FROM usuario as u
                     JOIN persona as p ON u.id_persona = p.id WHERE p.estado = '0'";
                $result=["usuarios"=> parent::consultaRetorno($user),
                          "super"=> parent::consultaRetorno($super),
@@ -97,10 +97,16 @@
                return "El Usuario se Modifico Satisfactoriamente";
           }
           public function eliminar(){
-               $sql="UPDATE usuario SET estado=b'0'
+               $sql="UPDATE persona SET estado='0'
                     WHERE id='{$this->id}'";
                parent::consultaSimple($sql);
                return "Usuario dado de Baja Satisfactoriamente";
+          }
+          public function alta(){
+               $sql="UPDATE persona SET estado='1'
+                    WHERE id='{$this->id}'";
+               parent::consultaSimple($sql);
+               return "Usuario dado de ALTA Satisfactoriamente";
           }
           public function ver_ci(){
                $sql="SELECT * FROM usuario WHERE ci='{$this->ci}'";

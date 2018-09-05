@@ -14,10 +14,7 @@ function SEARCH_DATA(DATA,TABLE,MESSAGE){
 function yes_number(e){var keyCode = (e.keyCode ? e.keyCode : e.which);if((keyCode > 47 && keyCode < 58) || keyCode == 8){return true;}else{e.preventDefault();}}
 function not_number(e){var keyCode = (e.keyCode ? e.keyCode : e.which);if((keyCode > 96 && keyCode < 123)  || (keyCode > 64 && keyCode < 91) || keyCode == 241 || keyCode == 32 || keyCode == 8){return true;}else{e.preventDefault();}}
 function key_placa(e){var keyCode = (e.keyCode ? e.keyCode : e.which);if((keyCode > 96 && keyCode < 123) || (keyCode > 64 && keyCode < 91) || keyCode == 241 || keyCode == 209 || (keyCode > 47 && keyCode < 58) || keyCode == 45 || keyCode == 8){return true;}else{e.preventDefault();}}
-// - =45
-// A =65 Z=90
-// Ñ =209
-
+function validate_sinsmall(e,t){if(t){$(e).removeClass('has-error').addClass('has-success');}else{$(e).removeClass('has-success').addClass('has-error');}}
 function small_error(e,t){if(t){$(e).removeClass('has-error').addClass('has-success');$(e+" span").removeClass('glyphicon-remove').addClass('glyphicon-ok');}else{$(e).removeClass('has-success').addClass('has-error');$(e+" span").removeClass('glyphicon-ok').addClass('glyphicon-remove');}}
 
 $(function() {
