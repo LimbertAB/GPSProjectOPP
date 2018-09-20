@@ -2,6 +2,7 @@
      class Controllers{
           public function __construct(){
                $this->view=new Views();
+               $this->jspdf=new PdfJspdf();
                $this->pdf=new Createpdf();
           }
           public function loadClassmodels($model){

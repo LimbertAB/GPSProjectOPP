@@ -11,10 +11,11 @@ class Createpdf{
           require VIEWS.$tipo_user.'/'.$controllers.'/'.$view.'.php';
           require_once '/../dompdf/dompdf_config.inc.php';
           $dompdf = new DOMPDF();
-
-          $dompdf->load_html(ob_get_clean());
+          $datos=utf8_encode(ob_get_clean());
+          $dompdf->load_html(utf8_decode($datos));
           $dompdf->set_paper('letter', $paper); //portrait
           $dompdf->render();
+          ob_end_clean();
           $dompdf->stream($controllers.'.pdf',array('Attachment'=>0));
      }
 }

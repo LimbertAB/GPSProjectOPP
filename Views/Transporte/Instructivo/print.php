@@ -7,6 +7,7 @@
           <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
           <title>Instructivo N° <?php echo $resultado['id'];?></title>
           <style>
+               *{ font-family: verdana, sans-serif !important;}
                html, body {
                     height: 100%;
                }
@@ -20,15 +21,15 @@
                }
           </style>
      </head>
-     <body >
-          <img src="<?php echo URL;?>public/images/logos/logo.png" width="140px" style="position: absolute">
-          <table width="100%" style="margin-top:30px">
+     <body  style="margin:0 0 0 35px">
+          <img src="<?php echo URL;?>public/images/logos/logo.png" width="140px" style="position: absolute;">
+          <table width="100%" style="margin:30px 0 0 0">
                <tr>
                     <td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td>
                     <td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td>
                </tr>
                <tr>
-                    <td colspan="10"><div align="center"> <u><i><h2>INSTRUCTIVO DE VIAJE <BR> SEDES / UNI / TRANSP./ 00<?php echo $resultado['id_chofer']." / ".date('Ymd', strtotime($resultado['fecha']))?></h2></i></u></div><br><br></td>
+                    <td colspan="10"><div align="center"> <u><h2 style="line-height:30px">INSTRUCTIVO DE VIAJE <br> SEDES / UNI / TRANSP./ 00<?php echo $resultado['id_chofer']." / ".date('Ymd', strtotime($resultado['fecha']))?></h2></u></div><br><br></td>
                </tr>
                <tr>
                     <td colspan="2"><b>A : </b> <br></td>

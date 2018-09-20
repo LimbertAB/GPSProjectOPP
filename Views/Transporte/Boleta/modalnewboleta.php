@@ -8,18 +8,18 @@
 			<div class="modal-body" style="margin:0;padding:0">
 				<form  class="form-horizontal" autocomplete="off">
 					<div class="row"  style="margin-left:40px;margin-right:40px;margin-top:25px;margin-bottom:25px">
-						<div class="form-group  has-feedback has-error fila1">
-							<label class="col-sm-2 control-label">Objetivo</label>
-							<div class="col-sm-10">
-								<input type="text" id="inputobjetivo" class="form-control" placeholder="Ejemplo: capacitacion seguimiento y vigilancia" validate=true toggle=".fila1">
-								<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden=true></span>
-							</div>
-						</div>
 						<div class="form-group  has-feedback has-success fila2">
 							<label class="col-sm-2 control-label">Unidad</label>
 							<div class="col-sm-10">
 								<input type="text" id="inputunidad" class="form-control" placeholder="Ejemplo: SEDES POTOSI" validate=true toggle=".fila2" value="SEDES POTOSI">
 								<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden=true></span>
+							</div>
+						</div>
+						<div class="form-group  has-feedback has-error fila1">
+							<label class="col-sm-2 control-label">Objetivo</label>
+							<div class="col-sm-10">
+								<input type="text" id="inputobjetivo" class="form-control" placeholder="Ejemplo: capacitacion seguimiento y vigilancia" validate=true toggle=".fila1">
+								<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden=true></span>
 							</div>
 						</div>
 						<div class="form-group  has-feedback has-success fila3">

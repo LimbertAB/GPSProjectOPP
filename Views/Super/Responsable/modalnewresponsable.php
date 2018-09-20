@@ -16,7 +16,7 @@
 							</div>
 						</div>
 						<div class="form-group  has-feedback has-error fila2">
-							<label class="col-sm-2 control-label">Nombres</label>
+							<label class="col-sm-2 control-label">Apellidos</label>
 							<div class="col-sm-10">
 								<input type="text" id="inputapellido" class="form-control" placeholder="Ejemplo:Condori Vargas" validate=true toggle=".fila2">
 								<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden=true></span>

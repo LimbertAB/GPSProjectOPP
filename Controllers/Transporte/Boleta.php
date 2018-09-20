@@ -42,9 +42,9 @@ class Boleta extends Controllers{
           $this->boleta->set("lugar",$_POST['lugar']);
           $this->boleta->set("fecha_de",$_POST['fecha_de']);
           $this->boleta->set("fecha_hasta",$_POST['fecha_hasta']);
-          $this->boleta->set("id_responsable",$_POST['id_responsable']);
-          $this->boleta->set("responsable_estado",$_POST['responsable_estado']);
-          $this->boleta->set("id_boleta_responsable",$_POST['id_boleta_responsable']);
+          $this->boleta->set("id_responsable",isset($_POST['id_responsable']) ?$_POST['id_responsable']:[]);
+          $this->boleta->set("responsable_estado",isset($_POST['responsable_estado']) ? $_POST['responsable_estado']:[]);
+          $this->boleta->set("id_boleta_responsable",isset($_POST['id_boleta_responsable']) ? $_POST['id_boleta_responsable']:[]);
          $resultado=$this->boleta->editar();
          echo $resultado;
      }

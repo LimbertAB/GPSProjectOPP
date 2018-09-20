@@ -100,26 +100,21 @@
 		//UPDATE boleta
 		$('#buttonupdate').click(function(){
 			var resp=[],resp_id=[],resp_estado=[],values=$('#selectresponsable_u').val(),aux=0;
-			for (var i = 0; i < id_responsables_u.length; i++) {
+			for (var i = 0; i < id_responsables_u.length; i++) {  // [3,10]
 				aux=0;
-				for (var j = 0; j < values.length; j++) {
+				for (var j = 0; j < values.length; j++) { // [ 4,5]
 					if(values[j]==id_responsables_u[i]){aux++;}
 				}
-				if(aux==0){
-					resp.push(id_responsables_u[i]);
-					resp_estado.push("eliminar");
-					resp_id.push(id_boletaresponsable_u[i]);
+				if(aux==0){ resp.push(id_responsables_u[i]);resp_estado.push("eliminar");resp_id.push(id_boletaresponsable_u[i]);
 				}
 			}
 			var aux=0;
-			for (var j = 0; j < values.length; j++) {
+			for (var j = 0; j < values.length; j++) {  // [ 4,5]
 				aux=0;
-				for (var i = 0; i < id_responsables_u.length; i++) {
+				for (var i = 0; i < id_responsables_u.length; i++) {  // [3,10]
 					if(values[j]==id_responsables_u[i]){aux++;}
 				}
-				if(aux==0){
-					resp.push(values[i]);
-					resp_estado.push("nuevo");
+				if(aux==0){ resp.push(values[j]);resp_estado.push("nuevo");
 				}
 			}
 			$.ajax({
@@ -135,7 +130,7 @@
 					fecha_hasta:$('#datetimepicker2_u input').val(),
 					id_responsable:resp,
 					responsable_estado:resp_estado,
-					id_boleta_responsable:resp_id
+					id_boleta_responsable:resp_id,
 				},
 				success:function(obj){
 					swal("Mensaje de Alerta!", obj , "success");
@@ -149,19 +144,26 @@
 	function evaluar_responsables(){
 		var values=$('#selectresponsable_u').val()|| [],aux=0;
 		if (values.length>0) {
-			for (var i = 0; i < id_responsables_u.length; i++) {
-				for (var j = 0; j < values.length; j++) {
-					if(values[j]==id_responsables_u[i]){aux++;}
+			if (values.length==id_responsables_u.length) {
+				for (var i = 0; i < id_responsables_u.length; i++) {
+					for (var j = 0; j < values.length; j++) {
+						if(values[j]==id_responsables_u[i]){aux++;}
+					}
 				}
-			}if (aux!=id_responsables_u.length) {
+				if (aux!=id_responsables_u.length) {
+					return true;
+				}else{return false;}
+			}else{
 				return true;
-			}else{return false;}
+			}
 		}else{
 			return false;
 		}
 	}
 	function updateAjax(val){
 		small_error(".fila1_u",true);small_error(".fila2_u",true);small_error(".fila3_u",true);small_error(".fila4_u",true);$("#buttonupdate").attr('disabled', true);
+		id_responsables_u=[];
+		id_boletaresponsable_u=[];
 		$.ajax({
 			url: '<?php echo URL;?>Boleta/ver/'+val,
 			type: 'get',
@@ -175,14 +177,20 @@
 				$('#datetimepicker2_u input').val(data.boletas.fecha_hasta);$('#datetimepicker2_u input').attr('placeholder',data.boletas.fecha_hasta);
 				$('#selectvehiculo_u option[value='+data.boletas.id_vehiculo+']').attr('selected','selected');
 				$('#selectchofer_u option[value='+data.boletas.id_chofer+']').attr('selected','selected');
+
+				$('#selectresponsable_u').selectpicker('val', '');
+				$("#selectresponsable_u").selectpicker('refresh');
 				var i=0;
+
 				while (i<data.responsables.length) {
+
 					$('#selectresponsable_u option[value='+data.responsables[i].id_responsable+']').attr('selected','selected');
 					id_responsables_u.push(data.responsables[i].id_responsable);
 					id_boletaresponsable_u.push(data.responsables[i].id);
 					i++;
+					$("#selectresponsable_u").selectpicker('refresh');
 				}
-				$("#selectvehiculo_u,#selectchofer_u,#selectresponsable_u").selectpicker('refresh');
+				$("#selectvehiculo_u,#selectchofer_u").selectpicker('refresh');
 				id_vehiculo_u=data.boletas.id_vehiculo;id_chofer_u=data.boletas.id_chofer;id_boleta_u=data.boletas.id;
 			}
 		});

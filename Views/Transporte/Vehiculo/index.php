@@ -15,10 +15,11 @@
 					<table id="tablecars" class="table table-striped table-condensed table-hover">
 						<thead>
 							<th width="5%">n°</th>
-							<th width="40%">marca</th>
+							<th width="30%">marca</th>
 							<th width="30%">tipo</th>
 							<th width="10%">placa</th>
 							<th width="15%">color</th>
+							<th width="10%">opción</th>
 						</thead>
 						<?php $num=1;?>
 						<tbody>
@@ -29,6 +30,7 @@
 									<td><h5><?php echo $row['tipo']; ?></h5></td>
 									<td><h5><?php echo $row['placa']; ?></h5></td>
 									<td><h5><?php echo $row['color']; ?></h5></td>
+									<td><h5><a  href="/<?php echo FOLDER;?>/Gps/ver_car/<?php echo $row['id'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a></h5></td>
 								</tr>
 								<?php $num++;?>
 							<?php endwhile; ?>
@@ -51,10 +53,11 @@
 					<table class="table table-striped table-condensed table-hover">
 						<thead>
 							<th width="5%">n°</th>
-							<th width="40%">marca</th>
+							<th width="30%">marca</th>
 							<th width="30%">tipo</th>
 							<th width="10%">placa</th>
 							<th width="15%">color</th>
+							<th width="10%">opción</th>
 						</thead>
 						<?php $num=1;?>
 						<tbody>
@@ -65,6 +68,7 @@
 									<td><h5><?php echo $row['tipo']; ?></h5></td>
 									<td><h5><?php echo $row['placa']; ?></h5></td>
 									<td><h5><?php echo $row['color']; ?></h5></td>
+									<td><h5><a  href="/<?php echo FOLDER;?>/Gps/ver_car/<?php echo $row['id'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a></h5></td>
 								</tr>
 								<?php $num++;?>
 							<?php endwhile; ?>

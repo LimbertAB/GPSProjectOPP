@@ -25,9 +25,9 @@
                       		</select>
 					</div>
 					<div class="form-group has-feedback has-success fila1">
-							<label>Descripción</label>
-							<textarea id="textareadescripcion" toggle=".fila1" validate="true" rows="8" placeholder="La unidad de Transportes, dependiente de la Unidad Administrativa y jefatura del Departamento de Administración y Finanzas del Servicio Departamental de Salud Potosi.." maxlength="500" style="resize: none;padding:10px"  class="form-control">La unidad de Transportes, dependiente de la Unidad Administrativa y jefatura del Departamento de Administraci&oacute;n y Finanzas del Servicio Departamental de Salud Potos&iacute;, instruye a usted realizar el apoyo como conductor para el viaje a los municipios de Llallagua y Ocuri para el traslado t&eacute;cnico de planificaci&oacute;n Dr. Gary Barrios Garcia que realizara seguimiento y monitoreo de los proyectos de salud del 5 al 7 de julio de la presente gesti&oacute;n.</textarea>
-						</div>
+						<label>Descripción</label>
+						<textarea id="textareadescripcion" toggle=".fila1" validate="true" rows="8" placeholder="La unidad de Transportes, dependiente de la Unidad Administrativa y jefatura del Departamento de Administración y Finanzas del Servicio Departamental de Salud Potosi.." maxlength="500" style="resize: none;padding:10px"  class="form-control">La unidad de Transportes, dependiente de la Unidad Administrativa y jefatura del Departamento de Administraci&oacute;n y Finanzas del Servicio Departamental de Salud Potos&iacute;, instruye a usted realizar el apoyo como conductor para el viaje a los municipios de Llallagua y Ocuri para el traslado t&eacute;cnico de planificaci&oacute;n Dr. Gary Barrios Garcia que realizara seguimiento y monitoreo de los proyectos de salud del 5 al 7 de julio de la presente gesti&oacute;n.</textarea>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer" style="border-left:10px solid  #84da92;margin-top: 15px;padding:10px 0 10px 0">

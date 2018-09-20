@@ -6,33 +6,36 @@ class Cronograma extends Controllers{
           $this->cronograma=parent::loadClassmodels("CronogramaModel");
      }
      public function index(){
+          $this->cronograma->set('year',isset($_GET['date'])? substr($_GET['date'], 0, -2):date('Y'));
+          $this->cronograma->set('month',isset($_GET['date'])? substr($_GET['date'], -2):date('m'));
          $resultado=$this->cronograma->listar();
          $this->view->render($this,"index",$resultado);
      }
      public function ver($id){
          $this->cronograma->set('id',$id);
          $data=$this->cronograma->ver();
-         echo json_encode($data);
+         $this->view->render($this,"ver",$data);
+         //echo json_encode($data);
+     }
+     public function printpdf($id){//imprime mi informe
+          $this->cronograma->set('id',$id);
+          $data=$this->cronograma->imprimir();
+          $this->pdf->loadPDF($this,'print','landscape',$data);
      }
      public function crear(){
-          $this->cronograma->set("id_marca",$_POST['id_marca']);
-          $this->cronograma->set("tipo",$_POST['tipo']);
-          $this->cronograma->set("color",$_POST['color']);
-          $this->cronograma->set("placa", $_POST['placa']);
-          $this->cronograma->set("age",$_POST['age']);
+          $this->cronograma->set("fecha_de",$_POST['fecha_de']);
+          $this->cronograma->set("fecha_hasta",$_POST['fecha_hasta']);
+          $this->cronograma->set("id_boleta",$_POST['id_boleta']);
           $resultado=$this->cronograma->crear();
           echo $resultado;
      }
      public function editar($id){
           $this->cronograma->set('id',$id);
-          $this->cronograma->set("id_marca",$_POST['id_marca']);
-         $this->cronograma->set("tipo",$_POST['tipo']);
-         $this->cronograma->set("color",$_POST['color']);
-         $this->cronograma->set("placa", $_POST['placa']);
-         $this->cronograma->set("placa_original", $_POST['placa_original']);
-         $this->cronograma->set("age",$_POST['age']);
-         $resultado=$this->cronograma->editar();
-         echo $resultado;
+          $this->cronograma->set("fecha_de",$_POST['fecha_de']);
+          $this->cronograma->set("fecha_hasta",$_POST['fecha_hasta']);
+          $this->cronograma->set("id_boleta",isset($_POST['id_boleta'])?$_POST['id_boleta']:[]);
+          $resultado=$this->cronograma->editar();
+          echo $resultado;
      }
      public function eliminar($id){
          $this->cronograma->set('id',$id);
@@ -42,18 +45,7 @@ class Cronograma extends Controllers{
          $this->cronograma->set('id',$id);
          $this->cronograma->alta();
      }
-     public function userLogin(){
-          if (isset($_POST['ci']) && isset($_POST['password'])) {
-               $this->cronograma->set("ci",$_POST['ci']);
-               $this->cronograma->set("password",$_POST['password']);
-               $data=$this->cronograma->login();
-               if ($data!="false") {
-                    $this->createSession($data);
-                    $rows= json_encode($data);
-                    echo $rows;
-               }else{echo false;}
-         }
-     }
+
      function createSession($user){
           Session::setSession('User',$user);
      }

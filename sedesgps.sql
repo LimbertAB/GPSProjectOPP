@@ -35,7 +35,7 @@ CREATE TABLE `boleta` (
   `created_at` date NOT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `boleta` (
 
 LOCK TABLES `boleta` WRITE;
 /*!40000 ALTER TABLE `boleta` DISABLE KEYS */;
-INSERT INTO `boleta` VALUES (2,22,44,'sedes potosi','capacitar en seminario','oficial','ciudad de potosi','2018-08-19','2018-08-19','2018-08-18','2018-08-18'),(3,18,43,'sedes potosi','objetivo nuevo de hoy','oficial','clle pando potosi','2018-08-23','2018-08-25','2018-08-23','2018-08-23');
+INSERT INTO `boleta` VALUES (2,18,43,'sedes potosis','capacitar en seminarios','oficials','ciudad de potosis','2018-08-19','2019-07-26','2018-08-18','2018-09-15'),(3,14,22,'sedes potosi','objetivo nuevo de hoy','oficial','clle pando potosi','2018-08-23','2018-08-25','2018-08-23','2018-09-15'),(4,10,22,'sedes potosi','viaje del mes de septiembre','oficial','aqui nomas','2018-09-05','2018-09-05','2018-09-05','2018-09-15'),(5,19,29,'sedes potosi','otra vez','oficial','potosiggg','2018-09-05','2018-09-05','2018-09-05','2018-09-13'),(6,17,16,'sedes potosi','idsfdsfsdfsdfsdf','oficial','dsfsdfdsaf','2018-09-05','2018-09-05','2018-09-05','2018-09-15');
 /*!40000 ALTER TABLE `boleta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +64,7 @@ CREATE TABLE `boleta_responsable` (
   KEY `id_responsable_idx` (`id_responsable`),
   CONSTRAINT `id_boleta` FOREIGN KEY (`id_boleta`) REFERENCES `boleta` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `id_responsable` FOREIGN KEY (`id_responsable`) REFERENCES `responsable` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +73,7 @@ CREATE TABLE `boleta_responsable` (
 
 LOCK TABLES `boleta_responsable` WRITE;
 /*!40000 ALTER TABLE `boleta_responsable` DISABLE KEYS */;
-INSERT INTO `boleta_responsable` VALUES (1,2,79),(3,2,81),(4,3,3),(5,3,10),(6,3,13),(7,3,14);
+INSERT INTO `boleta_responsable` VALUES (18,2,81),(25,3,9),(26,4,80),(27,3,1),(28,5,57),(29,6,19),(30,2,80),(31,4,3),(32,6,81);
 /*!40000 ALTER TABLE `boleta_responsable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,6 +181,39 @@ LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
 INSERT INTO `events` VALUES (1,'Hola mundo','JEFATURA DE GESTION DE CALIDAD Y AUDITORIA EN SALUD','UNIDAD HABILITACION ESTABLECIMIENTOS DE SALUD','#000','2017-04-24 00:00:00','2017-04-25 00:00:00'),(3,'REALIZAR UNA FERIA','JEFATURA ADMINISTRATIVA Y FINANCIERA','UNIDAD FINANCIERA','#FF0000','2017-04-10 00:00:00','2017-04-11 00:00:00'),(4,'FORTALESIMIENTO INSTITUCIONAL','JEFATURA DE PLANIFICACION Y PROYECTOS','UNIDAD DE PLANIFICACION','#008000','2017-04-04 00:00:00','2017-04-07 00:00:00');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `gps`
+--
+
+DROP TABLE IF EXISTS `gps`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gps` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_chofer` int(11) NOT NULL,
+  `id_vehiculo` int(11) NOT NULL,
+  `descripcion` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
+  `filename` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
+  `fecha` date NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `id_vehiculo_gps_idx` (`id_vehiculo`),
+  KEY `id_chofer_gps_idx` (`id_chofer`),
+  CONSTRAINT `id_chofer_gps` FOREIGN KEY (`id_chofer`) REFERENCES `persona` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `id_vehiculo_gps` FOREIGN KEY (`id_vehiculo`) REFERENCES `vehiculo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `gps`
+--
+
+LOCK TABLES `gps` WRITE;
+/*!40000 ALTER TABLE `gps` DISABLE KEYS */;
+INSERT INTO `gps` VALUES (1,1,1,'fue una viaje a un centro de salud','2018-09-10-090909-1.gpx','2018-09-10',1),(2,1,1,'otra ruta de prueba','2018-09-11-090909-1.gpx','2018-09-11',1),(3,1,44,'viaje de emergencia a uyuni','2018-09-12031329-144.gpx','2018-09-12',1),(4,1,6,'viajando a tupiza','2018-09-12031630-16.gpx','2018-09-12',1),(5,22,39,'de sedes a casa','2018-09-14231815-2239.gpx','2018-09-14',1),(6,2,2,'el de hoyyyy','2018-09-15003030-22.gpx','2018-09-15',1);
+/*!40000 ALTER TABLE `gps` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -541,4 +574,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-23 19:12:38
+-- Dump completed on 2018-09-14 21:05:55

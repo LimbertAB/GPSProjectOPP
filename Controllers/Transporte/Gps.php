@@ -12,30 +12,46 @@ class Gps extends Controllers{
           $resultado=$this->gps->listar();
           $this->view->render($this,"index",$resultado);
      }
-     public function printonepdf($id){
+     public function printpdf($id){
           $this->gps->set('id',$id);
-          $this->gps->set('year',isset($_GET['year']) ? $_GET['year'] :date('Y'));
-          $this->gps->set('month',isset($_GET['month']) ? $_GET['month'] :date('m'));
-          $data=$this->gps->imprimir_uno();
-          $this->pdf->loadPDF($this,"printone","landscape",$data);
+          $resultado=$this->gps->imprimir();
+         echo json_encode($resultado);
      }
-     public function ver($id){
+     public function ver_car($id){
          $this->gps->set('id',$id);
-         $data=$this->gps->ver();
-         echo json_encode($data);
+         $this->gps->set('year',isset($_GET['date']) ? substr($_GET['date'], 0, -4) : date('Y'));
+         $this->gps->set('month',isset($_GET['date']) ? substr($_GET['date'], 4, -2) : date('m'));
+         $this->gps->set('day',isset($_GET['date']) ? substr($_GET['date'], -2) : date('d'));
+         $resultado=$this->gps->ver_vehiculo();
+         $this->view->render($this,"location",$resultado);
+     }
+     public function ver_people($id){
+         $this->gps->set('id',$id);
+         $this->gps->set('year',isset($_GET['date']) ? substr($_GET['date'], 0, -4) : date('Y'));
+         $this->gps->set('month',isset($_GET['date']) ? substr($_GET['date'], 4, -2) : date('m'));
+         $this->gps->set('day',isset($_GET['date']) ? substr($_GET['date'], -2) : date('d'));
+         $resultado=$this->gps->ver_chofer();
+         $this->view->render($this,"location",$resultado);
      }
      public function crear(){
-          $this->gps->set("id_chofer",$_POST['id_chofer']);
-          $this->gps->set("id_vehiculo",$_POST['id_vehiculo']);
-          $this->gps->set("unidad",$_POST['unidad']);
-          $this->gps->set("objetivo", $_POST['objetivo']);
-          $this->gps->set("uso",$_POST['uso']);
-          $this->gps->set("lugar",$_POST['lugar']);
-          $this->gps->set("fecha_de",$_POST['fecha_de']);
-          $this->gps->set("fecha_hasta",$_POST['fecha_hasta']);
-          $this->gps->set("id_responsable",$_POST['id_responsable']);
-          $resultado=$this->gps->crear();
-          echo $resultado;
+          $hora=date('His');
+          $FILE=$_FILES['archivo'];
+          if ($FILE['type']=="application/octet-stream") {
+               $nombre=$_POST['fecha'].$hora."-".$_POST['id_chofer'].$_POST['id_vehiculo'].".gpx";
+               $ruta = "locations/".$nombre;
+               if (move_uploaded_file($FILE['tmp_name'], $ruta)) {
+                    $this->gps->set("id_chofer",$_POST['id_chofer']);
+                    $this->gps->set("id_vehiculo",$_POST['id_vehiculo']);
+                    $this->gps->set("descripcion", $_POST['descripcion']);
+                    $this->gps->set("filename",$nombre);
+                    $this->gps->set("fecha",$_POST['fecha']);
+                    $resultado=$this->gps->crear();
+                    echo $resultado;
+               }else {
+                    echo "false";
+               }
+          }
+
      }
 }
  ?>
