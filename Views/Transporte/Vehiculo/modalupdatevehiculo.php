@@ -4,7 +4,7 @@
                <div class="modal-body" style="padding-top:0;padding-bottom:0;z-index:20">
 				<div class="row">
 	                   	<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="right: 5px;z-index:100;position:absolute"><span aria-hidden="true">&times;</span></button>
-	                   	<div class="col-md-4" height="100%" style="margin:0px;background:#0c2544;padding-top:25px;padding-left: 0;padding-right: 2px;z-index:-50;height: 460px;">
+	                   	<div class="col-md-4" height="100%" style="margin:0px;background:#0c2544;padding:25px 3px 0px 3px;z-index:-50;height: 460px;">
 	                       	<img src="<?php echo URL;?>public/images/icons/64/car.png" alt="profile" class="center-block" width="110px" style="padding:10px;margin-top:0px">
 	                       	<center class="umarca">
 	                           	<h5  style="color: #f2fafd;margin-top:0;margin-bottom:0px;text-transform:uppercase;z-index:900">Limbert <br> Arando Benavides</h5>

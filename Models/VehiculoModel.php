@@ -56,16 +56,16 @@
                return "El Vehiculo se Modifico Satisfactoriamente";
           }
           public function eliminar(){
-               $sql="UPDATE vehiculo SET estado=b'0'
+               $sql="UPDATE vehiculo SET estado=b'0',baja_detalle='{$this->baja_detalle}'
                     WHERE id='{$this->id}'";
                parent::consultaSimple($sql);
                return "Vehiculo dado de Baja Satisfactoriamente";
           }
           public function alta(){
-               $sql="UPDATE vehiculo SET estado=b'1'
+               $sql="UPDATE vehiculo SET estado=b'1',baja_detalle=null
                     WHERE id='{$this->id}'";
                parent::consultaSimple($sql);
-               return "Vehiculo dado de ALTA Satisfactoriamente";
+               echo "Vehiculo dado de ALTA Satisfactoriamente";
           }
           public function ver_placa(){
                $sql="SELECT * FROM vehiculo WHERE placa='{$this->placa}'";

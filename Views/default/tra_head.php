@@ -28,6 +28,7 @@
 		<script src="<?php echo URL;?>public/js/admin.js"></script>
 		<script src="<?php echo URL;?>public/js/puntos.js"></script>
 		<script src="<?php echo URL;?>public/js/fullcalendar.min.js"></script>
+		
 	</head>
 	<body class="hold-transition skin-blue sidebar-mini">
 		<div class="wrapper">

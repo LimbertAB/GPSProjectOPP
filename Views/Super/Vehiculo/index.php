@@ -178,7 +178,7 @@
 				$('.umarca em').text(data.tipo.toLowerCase());
 				$('.uplaca').text(data.placa);$('.ucargo').text(data.cargo);
 				$('.ucolor').text(data.color);
-				$('.uestado').text(data.estado==1 ? ("Activo"):("Inactivo"));
+				$('.uestado').text(data.estado==1 ? ("Activo"):(data.baja_detalle));
 				$('#inputtipo_u').val(data.tipo.toLowerCase());$('#inputtipo_u').attr('placeholder',data.tipo.toLowerCase());
 				$('#inputplaca_u').val(data.placa.toLowerCase());$('#inputplaca_u').attr('placeholder',data.placa.toLowerCase());
 				$('#inputcolor_u').val(data.color.toLowerCase());$('#inputcolor_u').attr('placeholder',data.color.toLowerCase());
@@ -192,24 +192,30 @@
 	}
 	function bajaAjax(val){
 		swal({
-			title: "¿Estás seguro?",
-			text: "Esta Seguro que quiere dar de baja al Vehiculo?",
-			type: "warning",
+			title: "¿Esta seguro que quiere dar de baja el vehiculo?",
+			text: "Detalle el motivo del porque el vehiculo esta siendo dado de baja",
+			type: "input",
+			inputPlaceholder:"ejemplo: vehiculo en mantenimiento",
 			showCancelButton: true,confirmButtonColor: "#d93333",
 			confirmButtonText: "Dar de Baja!",
 			closeOnConfirm: false
-		},function(){
-			$.ajax({
-				url: '<?php echo URL;?>Vehiculo/eliminar/'+val,
-				type: 'get',
-				success:function(obj){
-					if (obj=="false") {
-					}else{
+		},function(inputValue){
+			if (inputValue === false) return false;
+		 	if (inputValue === "") {
+			    	swal.showInputError("Detalle el porque el vehiculo esta siendo dado de baja!");return false;
+			}else{
+				$.ajax({
+					url: '<?php echo URL;?>Vehiculo/eliminar/'+val,
+					type: 'post',
+					data:{
+						baja_detalle:inputValue
+					},
+					success:function(obj){
 						swal("Mensaje de Alerta!", obj , "success");
-						setInterval(function(){ window.location.href = "/<?php echo FOLDER;?>/Vehiculo"; }, 1000);
+						setInterval(function(){ location.reload()}, 1000);
 					}
-				}
-			});
+				});
+			}
 		});
 	}
 	function altaAjax(val){

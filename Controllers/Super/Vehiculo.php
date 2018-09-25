@@ -35,8 +35,9 @@ class Vehiculo extends Controllers{
          echo $resultado;
      }
      public function eliminar($id){
-         $this->vehiculo->set('id',$id);
-         $this->vehiculo->eliminar();
+          $this->vehiculo->set('id',$id);
+          $this->vehiculo->set('baja_detalle',$_POST['baja_detalle']);
+          $this->vehiculo->eliminar();
      }
      public function alta($id){
          $this->vehiculo->set('id',$id);
