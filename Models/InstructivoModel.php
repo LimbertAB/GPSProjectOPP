@@ -12,9 +12,11 @@
           }
           public function listar(){
                $persona="SELECT * FROM persona WHERE estado = 1 AND tipo=3";
-               $instructivo="SELECT i.*,p.nombre,p.brevet FROM instructivo as i JOIN persona as p ON p.id = i.id_chofer";
+               $instructivo="SELECT i.*,p.nombre,p.brevet FROM instructivo as i JOIN persona as p ON p.id = i.id_chofer WHERE i.estado=1 AND YEAR(i.fecha)='{$this->year}' AND MONTH(i.fecha)='{$this->month}'";
+               $bajas="SELECT i.*,p.nombre,p.brevet FROM instructivo as i JOIN persona as p ON p.id = i.id_chofer WHERE i.estado=0";
                $result=["instructivos"=> parent::consultaRetorno($instructivo),
-                         "choferes"=> parent::consultaRetorno($persona)
+                         "bajas"=> parent::consultaRetorno($bajas),
+                         "choferes"=> parent::consultaRetorno($persona),"month"=> $this->month,"year"=>$this->year
                ];
                return $result;
           }
@@ -35,9 +37,16 @@
                return "El Instructivo se Modifico Satisfactoriamente";
           }
           public function eliminar(){
-               $sql="DELETE FROM instructivo WHERE id='{$this->id}'";
+               $sql="UPDATE instructivo SET estado='0'
+                    WHERE id='{$this->id}'";
                parent::consultaSimple($sql);
-               return "Instructivo eliminado Satisfactoriamente";
+               echo "Instructivo se dio de baja Satisfactoriamente";
+          }
+          public function alta(){
+               $sql="UPDATE instructivo SET estado='1'
+                    WHERE id='{$this->id}'";
+               parent::consultaSimple($sql);
+               echo "Instructivo se dio de Alta Satisfactoriamente";
           }
      }
  ?>

@@ -1,6 +1,7 @@
 <?php
 	$users=['Administrador','Director','Planificador','Jefe de Jefatura','Jefe de Unidad','Normal'];
 ?>
+<div class="fab" data-target="#newchoferModal" data-toggle="modal"> + </div>
 <div class="row">
 	<h2 class="text-center" style="margin:20px 0 1px 0;font-weight:300">LISTA DE CHOFERES</h2>
 </div>
@@ -28,7 +29,10 @@
 									<td><h5><?php echo $row['brevet'];?></h5></td>
 									<td style="text-align:left;padding-left:9px"><h5><?php echo ucwords(strtolower($row['nombre'])); ?></h5></td>
 									<td><h5><?php echo ucwords(strtolower($row['unidad'])); ?></h5></td>
-									<td><h5> <a  href="/<?php echo FOLDER;?>/Gps/ver_people/<?php echo $row['id'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a></h5></td>
+									<td>
+										<a data-target="#updatechoferModal" data-toggle="modal" onclick="updateAjax(<?php echo $row['id'];?>)"><button title="editar chofer" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
+										<a  onclick="bajaAjax(<?php echo $row['id'];?>)"><button title="dar de baja chofer" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></a>
+									</td>
 								</tr>
 							<?php endwhile; ?>
 						</tbody>
@@ -61,7 +65,8 @@
 									<td style="text-align:left;padding-left:9px"><h5><?php echo ucwords(strtolower($row['nombre'])); ?></h5></td>
 									<td><h5><?php echo ucwords(strtolower($row['unidad'])); ?></h5></td>
 									<td>
-										<td><h5> <a  href="/<?php echo FOLDER;?>/Gps/ver_people/<?php echo $row['id'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a></h5></td>
+										<a data-target="#updatechoferModal" data-toggle="modal" onclick="updateAjax(<?php echo $row['id'];?>)"><button title="editar chofer" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
+										<a  onclick="altaAjax(<?php echo $row['id'];?>)"><button title="dar de alta chofer" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button></a>
 									</td>
 								</tr>
 							<?php endwhile; ?>
@@ -82,6 +87,9 @@
 		</div>
 	</div>
 </div>
+
+<?php 	include 'modalnewchofer.php';
+		include 'modalupdatechofer.php';?>
 <script>
    	var id_unidad_u,id_chofer_u,id_tipo_u;
 	var users_array=['Administrador','Director','Planificador','Jefe de Jefatura','Jefe de Unidad','Normal'];

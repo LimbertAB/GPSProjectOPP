@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="<?php echo URL; ?>public/css/bootstrap-select.min.css">
 		<link rel="stylesheet" href="<?php echo URL; ?>public/css/admin.css">
 		<link rel="stylesheet" href="<?php echo URL; ?>public/css/gps.css">
+		<link rel="stylesheet" href="<?php echo URL; ?>public/css/fullcalendar.min.css">
 		<script src="<?php echo URL;?>public/js/jQuery-2.1.4.min.js"></script>
 		<script src="<?php echo URL;?>public/js/moment.min.js"></script>
 		<script src="<?php echo URL;?>public/js/app.min.js"></script>
@@ -26,6 +27,7 @@
 		<script src="<?php echo URL;?>public/js/bootstrap.min.js"></script>
 		<script src="<?php echo URL;?>public/js/admin.js"></script>
 		<script src="<?php echo URL;?>public/js/puntos.js"></script>
+		<script src="<?php echo URL;?>public/js/fullcalendar.min.js"></script>
 	</head>
 	<body class="hold-transition skin-blue sidebar-mini">
 		<div class="wrapper">
@@ -79,6 +81,8 @@
 							<div class="col-md-3 col-sm-3 col-xs-3" style="padding:0">
 								<button type="button" class="btn btn-info" name="button" id="btninfogps" style="margin:8px 0 0 30px;display:none;display:right">Info  <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></button>
 								<input type="button" value="BUSCAR" id="btnsearch">
+							</div>
+							<div class="list-group col-md-8 col-sm-8 col-xs-8" style="position:absolute;top:46px;left:55px;max-height:400px;overflow-y: auto;padding-right: 0px" id="searchprincipal">
 							</div>
 							<div class="panel panel-default" style="position:absolute;top:43px;right:-10px;width: 300px;padding-right: 0px;display:none" id="panelinfo_gps">
 							  	<div class="panel-heading" style="background:#00cee5">
@@ -159,15 +163,16 @@
 							</a>
 						</li>
 						<li class="treeview">
-							<a href="#">
-								<i class="fa fa-user"></i>
-								<span>Persona</span>
-								<i class="fa fa-angle-left pull-right"></i>
+							<a href="/<?php echo FOLDER; ?>/Responsable">
+								<i class="fa fa-group"></i>
+								<span>Responsables</span>
 							</a>
-							<ul class="treeview-menu">
-								<li><a href="/<?php echo FOLDER; ?>/Responsable"><i class="fa fa-circle-o"></i>Responsables</a></li>
-								<li><a href="/<?php echo FOLDER; ?>/Chofer"><i class="fa fa-circle-o"></i>Choferes</a></li>
-							</ul>
+						</li>
+						<li class="treeview">
+							<a href="/<?php echo FOLDER; ?>/Chofer">
+								<i class="fa fa-street-view"></i>
+								<span>Choferes</span>
+							</a>
 						</li>
 						<li class="treeview">
 							<a href="/<?php echo FOLDER; ?>/Boleta">
@@ -196,14 +201,9 @@
 							</a>
 						</li>
 						<li class="treeview">
-							<a href="#">
-								<i class="fa fa-file"></i>
-								<span>Reportes</span>
-								<i class="fa fa-angle-left pull-right"></i>
+							<a href="/<?php echo FOLDER; ?>/Reporte/viaje" style="cursor:pointer">
+								<i class="fa fa-file"></i><span>Reporte de Viajes</span>
 							</a>
-							<ul class="treeview-menu">
-								<li><a href="/<?php echo FOLDER; ?>/Reporte/viaje"><i class="fa fa-circle-o"></i>Viajes</a></li>
-							</ul>
 						</li>
 						<li>
 							<a href="/<?php echo FOLDER;?>/Usuario/destroySession" style="cursor:pointer">

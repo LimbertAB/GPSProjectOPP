@@ -33,42 +33,5 @@ class Reporte extends Controllers{
          $data=$this->reporte->ver();
          echo json_encode($data);
      }
-     public function crear(){
-          $this->reporte->set("id_chofer",$_POST['id_chofer']);
-          $this->reporte->set("id_vehiculo",$_POST['id_vehiculo']);
-          $this->reporte->set("unidad",$_POST['unidad']);
-          $this->reporte->set("objetivo", $_POST['objetivo']);
-          $this->reporte->set("uso",$_POST['uso']);
-          $this->reporte->set("lugar",$_POST['lugar']);
-          $this->reporte->set("fecha_de",$_POST['fecha_de']);
-          $this->reporte->set("fecha_hasta",$_POST['fecha_hasta']);
-          $this->reporte->set("id_responsable",$_POST['id_responsable']);
-          $resultado=$this->reporte->crear();
-          echo $resultado;
-     }
-     public function editar($id){
-          $this->reporte->set("id",$id);
-          $this->reporte->set("id_chofer",$_POST['id_chofer']);
-          $this->reporte->set("id_vehiculo",$_POST['id_vehiculo']);
-          $this->reporte->set("unidad",$_POST['unidad']);
-          $this->reporte->set("objetivo", $_POST['objetivo']);
-          $this->reporte->set("uso",$_POST['uso']);
-          $this->reporte->set("lugar",$_POST['lugar']);
-          $this->reporte->set("fecha_de",$_POST['fecha_de']);
-          $this->reporte->set("fecha_hasta",$_POST['fecha_hasta']);
-          $this->reporte->set("id_responsable",$_POST['id_responsable']);
-          $this->reporte->set("responsable_estado",$_POST['responsable_estado']);
-          $this->reporte->set("id_reporte_responsable",$_POST['id_reporte_responsable']);
-         $resultado=$this->reporte->editar();
-         echo $resultado;
-     }
-     public function eliminar($id){
-         $this->reporte->set('id',$id);
-         $this->reporte->eliminar();
-     }
-     public function alta($id){
-         $this->reporte->set('id',$id);
-         $this->reporte->alta();
-     }
 }
  ?>

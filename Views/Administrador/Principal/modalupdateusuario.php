@@ -25,7 +25,7 @@
 	                       	</center>
 	                   	</div>
 	                   	<div class="col-md-8">
-	                       	<center><h3 style="margin-top:5px;color: #1cd2dc;font-weight: 700;">MODIFICAR USUARIO</h3></center>
+	                       	<center><h3 style="margin-top:30px;color: #1cd2dc;font-weight: 700;">MODIFICAR USUARIO</h3></center>
 					   	<form autocomplete="off">
 	                            	<div class="form-group has-feedback has-success fila1_u" style="margin-bottom:10px">
 	                                <label style="color:#3fd2e0;font-weight:400;font-family:arial;font-size:.8em;margin-bottom:2px">NOMBRES</label>
@@ -43,14 +43,6 @@
 	                                <input type="password" autocomplete="false" autocorrect="off" class="form-control" id="inputpassword_u" validate="false" name="password" placeholder="Minimo 5 caracteres" toggle=".fila3_u">
 	                                <span toggle="#inputpassword_u" id="togglepassword_u" class="fa fa-fw fa-eye field-icon"></span>
 						   	</div>
-							<div class="form-group">
-								<label style="color:#3fd2e0;font-weight:400;font-family:arial;font-size:.8em;margin-bottom:2px">TIPO</label>
-								<select id="selecttipo_u" class="form-control">
-									<option value=0>Super Administrador</option>
-									<option value=1>Administrador</option>
-									<option value=2>Jefe de Transporte</option>
-								</select>
-							</div>
 	                            	<center>
 	                                	<button class="btn btn-warning" style="margin:10px 0 18px 0px" id="buttonupdate" type="button" disabled>Guardar</button>
 	                            	</center>

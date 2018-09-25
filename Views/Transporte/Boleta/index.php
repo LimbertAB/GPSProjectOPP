@@ -1,9 +1,33 @@
+<?php
+	$months=["Enero","Febrero","Marzo", "Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+	$mes=$months[intval($resultado['month']) - 1];
+?>
 <div class="fab" data-target="#newboletaModal" data-toggle="modal"> + </div>
 <div class="row">
-	<h2 class="text-center" style="margin:20px 0 1px 0;font-weight:300">LISTA DE BOLETAS</h2>
+	<div class="row">
+		<div class="col-md-9">
+			<h2 class="text-center" style="margin:5px 0 1px 0;font-weight:300">LISTA DE BOLETAS<small> (<?php echo $mes."-".$resultado['year'];?>)</small> </h2>
+		</div>
+		<div class="col-md-2">
+		   <div class='input-group date' id='datetimepickermes1'>
+			   <input  readonly type='text' value="<?php echo $resultado['year']."-".$resultado['month'] ?>" class="form-control" placeholder=" <?php echo $resultado['year']."-".$resultado['month'] ?>"/>
+			 <span class="input-group-addon">
+			    <span class="glyphicon glyphicon-calendar"></span>
+		    </span>
+		   </div>
+		</div>
+	</div>
 </div>
 <div class="row" style="margin:10px"> <!-- SECTION TABLE USERS -->
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div class="col-md-12">
+	          <ul class="nav nav-tabs nav-justified" id="myTabs">
+	               <li role="presentation" class="active"><a href="#todos" aria-controls="todos" role="tab" data-toggle="tab">TODOS<span class="badge" style="background:red;margin-left:10px;color:#fff"><?php echo mysql_num_rows($resultado["boletas"]);?></span></a></li>
+	               <li role="presentation"><a href="#baja" aria-controls="baja" role="tab" data-toggle="tab">BAJAS<span class="badge" style="background:red;margin-left:10px"><?php echo mysql_num_rows($resultado["bajas"]);?></span></a></li>
+	          </ul>
+	     </div>
+		<div class="col-md-12 tab-content" style="margin:0px">
+	          <div id="todos" role="tabpanel" class="tab-pane active">
 				<div class="table-responsive">
 					<table id="tableboletas" class="table table-striped table-condensed table-hover">
 						<thead>
@@ -22,7 +46,7 @@
 									<td><h5><?php echo $row['fecha_de'];?></h5></td>
 									<td>
 										<a data-target="#updateboletaModal" data-toggle="modal" onclick="updateAjax(<?php echo $row['id'];?>)"><button title="editar boleta" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
-										<a target="_blank" href="/<?php echo FOLDER;?>/Boleta/printpdf/<?php echo $row['id'];?> "><button title="dar de baja instructivo" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></button></a>
+										<a target="_blank" href="/<?php echo FOLDER;?>/Boleta/printpdf/<?php echo $row['id'];?> "><button title="imprimir boleta" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></button></a>
 										<a  onclick="bajaAjax(<?php echo $row['id'];?>)"><button title="dar de baja boleta" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></a>
 									</td>
 								</tr>
@@ -39,7 +63,45 @@
 						</div>
 					<?php endif;?>
 				</div>
-
+			</div>
+	          <div id="baja" role="tabpanel" class="tab-pane">
+				<div class="table-responsive">
+					<table class="table table-striped table-condensed table-hover">
+						<thead>
+                                   <th width="20%">unidad</th>
+							<th width="30%">chofer</th>
+							<th width="30%">vehiculo</th>
+                                   <th width="10%">fecha</th>
+							<th width="10%">Opciones</th>
+						</thead>
+						<tbody>
+							<?php while($row=mysql_fetch_array($resultado["bajas"])): ?>
+								<tr>
+									<td><h5><?php echo $row['unidad'];?></h5></td>
+									<td><h5><?php echo $row['chofer'];?> <small> <?php echo $row['brevet'];?></small></h5></td>
+									<td><h5><?php echo $row['tipo'];?> <small> <?php echo $row['placa'];?></small></h5></td>
+									<td><h5><?php echo $row['fecha_de'];?></h5></td>
+									<td>
+										<a data-target="#updateboletaModal" data-toggle="modal" onclick="updateAjax(<?php echo $row['id'];?>)"><button title="editar boleta" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
+										<a  onclick="altaAjax(<?php echo $row['id'];?>)"><button title="dar de alta boleta" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button></a>
+									</td>
+								</tr>
+							<?php endwhile; ?>
+						</tbody>
+					</table>
+				</div>
+				<div class="row"> <!-- SECTION EMPTY TABLE -->
+					<?php if(mysql_num_rows($resultado["bajas"])<1):?>
+						<div class="col-md-12">
+							<div class="alert alert-error alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<strong>MENSAJE DE ALERTA!</strong> No se encontraron boletas dados de BAJA.
+							</div>
+						</div>
+					<?php endif;?>
+				</div>
+			</div>
+		</div>
 </div>
 
 <?php 	include 'modalnewboleta.php';
@@ -47,6 +109,12 @@
 <script>
    	var id_chofer_u,id_boleta_u,id_vehiculo_u,id_responsables_u=[],id_boletaresponsable_u=[];
     $(document).ready(function(){
+	     $('#datetimepickermes1').datetimepicker({locale: 'es',format: 'YYYY-MM',ignoreReadonly: true,viewMode: 'months'}).on('dp.change', function(e){
+		    var placeholder=$('#datetimepickermes1 input').attr('placeholder'),input=$('#datetimepickermes1 input').val(),entero=parseInt(e.date._d.getMonth())+1,au= entero < 10 ? ("0" + entero) : (entero);
+		    if (placeholder.toString()!=input.toString()) {
+			    window.location.href = "/<?php echo FOLDER;?>/Boleta?date="+e.date._d.getFullYear()+au;
+		    }
+	     });
 		$('#datetimepicker1,#datetimepicker2').datetimepicker({locale: 'es',format: 'YYYY-MM-DD',ignoreReadonly: true,viewMode: 'days'});
 
 		$('#datetimepicker1_u,#datetimepicker2_u').datetimepicker({locale: 'es',format: 'YYYY-MM-DD',ignoreReadonly: true,viewMode: 'years'}).on('dp.change', function(e){ function_validate("false");});
@@ -198,7 +266,7 @@
 	function bajaAjax(val){
 		swal({
 			title: "¿Estás seguro?",
-			text: "Esta Seguro que quiere Eliminar la Boleta?",
+			text: "Esta Seguro que quiere dar de baja la Boleta?",
 			type: "warning",
 			showCancelButton: true,confirmButtonColor: "#d93333",
 			confirmButtonText: "Dar de Baja!",
@@ -211,7 +279,7 @@
 					if (obj=="false") {
 					}else{
 						swal("Mensaje de Alerta!", obj , "success");
-						setInterval(function(){ window.location.href = "/<?php echo FOLDER;?>/Boleta"; }, 1000);
+						setInterval(function(){ location.reload();}, 1000);
 					}
 				}
 			});
@@ -233,7 +301,7 @@
 					if (obj=="false") {
 					}else{
 						swal("Mensaje de Alerta!", obj , "success");
-						setInterval(function(){ window.location.href = "/<?php echo FOLDER;?>/Boleta"; }, 1000);
+						setInterval(function(){ location.reload();}, 1000);
 					}
 				}
 			});

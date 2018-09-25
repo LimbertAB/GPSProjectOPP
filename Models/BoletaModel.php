@@ -13,14 +13,18 @@
           public function listar(){
                $boletas="SELECT b.*,p.nombre as chofer,p.brevet,v.tipo,v.placa FROM boleta as b
                     JOIN persona as p ON p.id = b.id_chofer
-                    JOIN vehiculo as v ON v.id = b.id_vehiculo WHERE b.estado='1'";
+                    JOIN vehiculo as v ON v.id = b.id_vehiculo WHERE b.estado='1' AND YEAR(b.fecha_de)='{$this->year}' AND MONTH(b.fecha_de)='{$this->month}'";
+               $bajas="SELECT b.*,p.nombre as chofer,p.brevet,v.tipo,v.placa FROM boleta as b
+                    JOIN persona as p ON p.id = b.id_chofer
+                    JOIN vehiculo as v ON v.id = b.id_vehiculo WHERE b.estado='0'";
                $choferes="SELECT id,nombre,brevet FROM persona WHERE estado='1' AND tipo=3";
                $responsables="SELECT * FROM responsable WHERE estado='1'";
                $vehiculos="SELECT v.id,v.tipo,v.placa,m.nombre as marca FROM vehiculo as v JOIN marca as m ON m.id = v.id_marca WHERE v.estado='1'";
                $result=["boletas"=> parent::consultaRetorno($boletas),
+                         "bajas"=> parent::consultaRetorno($bajas),
                          "choferes"=> parent::consultaRetorno($choferes),
                          "vehiculos"=> parent::consultaRetorno($vehiculos),
-                         "responsables"=> parent::consultaRetorno($responsables)
+                         "responsables"=> parent::consultaRetorno($responsables),"month"=> $this->month,"year"=>$this->year,
                ];
                return $result;
           }
@@ -76,13 +80,13 @@
                $sql="UPDATE boleta SET estado='0'
                     WHERE id='{$this->id}'";
                parent::consultaSimple($sql);
-               return "la Boleta se dio de baja Satisfactoriamente";
+               echo "la Boleta se dio de baja Satisfactoriamente";
           }
           public function alta(){
                $sql="UPDATE boleta SET estado='1'
                     WHERE id='{$this->id}'";
                parent::consultaSimple($sql);
-               return "Boleta dada de ALTA Satisfactoriamente";
+               echo "Boleta dada de ALTA Satisfactoriamente";
           }
           public function ver_placa(){
                $sql="SELECT * FROM boleta WHERE placa='{$this->placa}'";

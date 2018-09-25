@@ -40,7 +40,7 @@ $mes=$months[intval($resultado['month']) - 1];
 							<td style="text-align:left;padding-left:9px"><h5> <a  href="/<?php echo FOLDER;?>/Gps/ver_car/<?php echo $row['id_vehiculo'];?>?date=<?php echo $resultado['year'].$resultado['month'].$resultado['day'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a> <?php echo $row['tipo'];?> <small> <?php echo $row['placa']?></small> </h5></td>
 							<td><h5><?php echo $row['descripcion'];?> Ubicaciones</h5></td>
 							<td>
-								<button title="imprimir reporte" type="button" onclick="verAjax(<?php echo $row['id'] ?>)" id="btnprint" data-loading-text="Generando pdf..." class="btn btn-info btn-sm" autocomplete="off">Descargar</button>
+								<button title="imprimir reporte" title="<?php echo $row['id'] ?>" type="button" data-loading-text="Generando pdf..." class="btn btn-info btn-sm btnprint" autocomplete="off">Descargar</button>
 							</td>
 						</tr>
 						<?php $aux++; ?>
@@ -62,7 +62,7 @@ $mes=$months[intval($resultado['month']) - 1];
 </div>
 <?php include 'modalimportgps.php';?>
 <script>
-   	var id_planificacion_u;
+   	var id_planificacion_u;var $btn;
     $(document).ready(function(){
 	    $('#inputsearch').keyup(function(){
 		var data=$(this).val().toLowerCase().trim();SEARCH_DATA(data,"tablegps","No se encontraron VIAJES registrados.");});
@@ -74,6 +74,19 @@ $mes=$months[intval($resultado['month']) - 1];
     			}
     		});
 		$('#textareaobjetivo').keyup(function(){console.log($(this).val().trim().length);if ($(this).val().trim().length>5) {$("#buttonregistrar").attr('disabled', false);validate_sinsmall('.fila1',true);}else{$("#buttonregistrar").attr('disabled', true);validate_sinsmall('.fila1',false);}});
+		$('.btnprint').click(function(){
+			data=$(this).attr('title');
+			console.log(data);
+			$btn = $(this).button('loading');
+			$.ajax({
+				url: '<?php echo URL;?>Gps/printpdf/'+data,
+				type: 'get',
+				success:function(obj){
+					var data = JSON.parse(obj);
+					imprimir_JsPdf(data,"<?php echo URL?>",$btn);
+				}
+			});
+		});
 	});
 	function registrarAjax(){
 		var parametros=new FormData($('#formularioimportar')[0]);
@@ -89,17 +102,6 @@ $mes=$months[intval($resultado['month']) - 1];
 					swal("Mensaje de Alerta!", obj , "success");
 					setInterval(function(){ location.reload();}, 1000);
 				}
-			}
-		});
-	}
-	function verAjax(val){
-		var $btn = $('#btnprint').button('loading');
-		$.ajax({
-			url: '<?php echo URL;?>Gps/printpdf/'+val,
-			type: 'get',
-			success:function(obj){
-				var data = JSON.parse(obj);
-				imprimir_JsPdf(data,"<?php echo URL?>");
 			}
 		});
 	}

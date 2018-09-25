@@ -1,3 +1,4 @@
+<div class="fab" data-target="#newresponsableModal" data-toggle="modal"> + </div>
 <div class="row">
 	<h2 class="text-center" style="margin:20px 0 1px 0;font-weight:300">LISTA DE USUARIOS RESPONSABLES DE VIAJES</h2>
 </div>
@@ -14,9 +15,10 @@
 				<div class="table-responsive">
 					<table id="tableresponsables" class="table table-striped table-condensed table-hover">
 						<thead>
-							<th>ci</th>
-							<th>nombres y apellidos</th>
-							<th>unidad</th>
+							<th width="15%">ci</th>
+							<th width="30%">nombres y apellidos</th>
+							<th width="45%">unidad</th>
+							<th width="10%">Opciones</th>
 						</thead>
 						<tbody>
 							<?php while($row=mysql_fetch_array($resultado["responsables"])): ?>
@@ -24,6 +26,10 @@
 									<td><h5><?php echo $row['ci'];?></h5></td>
 									<td style="text-align:left;padding-left:9px"><h5><?php echo ucwords(strtolower($row['nombre']))." ".ucwords(strtolower($row['apellido'])); ?></h5></td>
 									<td><h5><?php echo ucwords(strtolower($row['unidad'])); ?></h5></td>
+									<td>
+										<a data-target="#updateresponsableModal" data-toggle="modal" onclick="updateAjax(<?php echo $row['id'];?>)"><button title="editar responsable" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
+										<a  onclick="bajaAjax(<?php echo $row['id'];?>)"><button title="dar de baja responsable" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></a>
+									</td>
 								</tr>
 							<?php endwhile; ?>
 						</tbody>
@@ -44,9 +50,10 @@
 				<div class="table-responsive">
 					<table class="table table-striped table-condensed table-hover">
 						<thead>
-							<th>ci</th>
-							<th>nombres y apellidos</th>
-							<th>cargo</th>
+							<th width="9%">ci</th>
+							<th width="25%">nombres y apellidos</th>
+							<th width="25%">cargo</th>
+							<th width="6%">Opciones</th>
 						</thead>
 						<tbody>
 							<?php while($row=mysql_fetch_array($resultado["bajas"])): ?>
@@ -54,6 +61,10 @@
 									<td><h5><?php echo $row['ci'];?></h5></td>
 									<td style="text-align:left;padding-left:9px"><h5><?php echo ucwords(strtolower($row['nombre']))." ".ucwords(strtolower($row['apellido'])); ?></h5></td>
 									<td><h5><?php echo ucwords(strtolower($row['unidad'])); ?></h5></td>
+									<td>
+										<a data-target="#updateresponsableModal" data-toggle="modal" onclick="updateAjax(<?php echo $row['id'];?>)"><button title="editar responsable" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
+										<a  onclick="altaAjax(<?php echo $row['id'];?>)"><button title="dar de alta responsable" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button></a>
+									</td>
 								</tr>
 							<?php endwhile; ?>
 						</tbody>
@@ -73,6 +84,9 @@
 		</div>
 	</div>
 </div>
+
+<?php 	include 'modalnewresponsable.php';
+		include 'modalupdateresponsable.php';?>
 <script>
    	var id_unidad_u,id_responsable_u;
     $(document).ready(function(){

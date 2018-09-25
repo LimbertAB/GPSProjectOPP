@@ -6,8 +6,10 @@ class Boleta extends Controllers{
           $this->boleta=parent::loadClassmodels("BoletaModel");
      }
      public function index(){
-         $resultado=$this->boleta->listar();
-         $this->view->render($this,"index",$resultado);
+          $this->boleta->set('year',isset($_GET['date'])? substr($_GET['date'], 0, -2):date('Y'));
+          $this->boleta->set('month',isset($_GET['date'])? substr($_GET['date'], -2):date('m'));
+          $resultado=$this->boleta->listar();
+          $this->view->render($this,"index",$resultado);
      }
      public function ver($id){
          $this->boleta->set('id',$id);

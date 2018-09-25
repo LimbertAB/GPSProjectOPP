@@ -1,3 +1,4 @@
+<div class="fab" data-target="#newvehiculoModal" data-toggle="modal"> + </div>
 <div class="row">
 	<h2 class="text-center" style="margin:20px 0 1px 0;font-weight:300">LISTA DE VEHICULOS</h2>
 </div>
@@ -15,11 +16,11 @@
 					<table id="tablecars" class="table table-striped table-condensed table-hover">
 						<thead>
 							<th width="5%">n°</th>
-							<th width="30%">marca</th>
+							<th width="35%">marca</th>
 							<th width="30%">tipo</th>
 							<th width="10%">placa</th>
 							<th width="15%">color</th>
-							<th width="10%">opción</th>
+							<th width="5%">opcion</th>
 						</thead>
 						<?php $num=1;?>
 						<tbody>
@@ -30,7 +31,10 @@
 									<td><h5><?php echo $row['tipo']; ?></h5></td>
 									<td><h5><?php echo $row['placa']; ?></h5></td>
 									<td><h5><?php echo $row['color']; ?></h5></td>
-									<td><h5><a  href="/<?php echo FOLDER;?>/Gps/ver_car/<?php echo $row['id'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a></h5></td>
+									<td>
+										<a data-target="#updatevehiculoModal" data-toggle="modal" onclick="updateAjax(<?php echo $row['id'];?>)"><button title="ver vehiculo" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
+										<a  onclick="bajaAjax(<?php echo $row['id'];?>)"><button title="dar de baja vehiculo" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></a>
+									</td>
 								</tr>
 								<?php $num++;?>
 							<?php endwhile; ?>
@@ -53,11 +57,11 @@
 					<table class="table table-striped table-condensed table-hover">
 						<thead>
 							<th width="5%">n°</th>
-							<th width="30%">marca</th>
-							<th width="30%">tipo</th>
-							<th width="10%">placa</th>
+							<th width="25%">marca</th>
+							<th width="25%">tipo</th>
+							<th width="25%">placa</th>
 							<th width="15%">color</th>
-							<th width="10%">opción</th>
+							<th width="5%">opcion</th>
 						</thead>
 						<?php $num=1;?>
 						<tbody>
@@ -68,7 +72,10 @@
 									<td><h5><?php echo $row['tipo']; ?></h5></td>
 									<td><h5><?php echo $row['placa']; ?></h5></td>
 									<td><h5><?php echo $row['color']; ?></h5></td>
-									<td><h5><a  href="/<?php echo FOLDER;?>/Gps/ver_car/<?php echo $row['id'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a></h5></td>
+									<td>
+										<a data-target="#updatevehiculoModal" data-toggle="modal" onclick="updateAjax(<?php echo $row['id'];?>)"><button title="ver vehiculo" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
+										<a  onclick="altaAjax(<?php echo $row['id'];?>)"><button title="dar de alta al vehiculo" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button></a>
+									</td>
 								</tr>
 								<?php $num++;?>
 							<?php endwhile; ?>
@@ -89,6 +96,9 @@
 		</div>
 	</div>
 </div>
+
+<?php 	include 'modalnewvehiculo.php';
+		include 'modalupdatevehiculo.php';?>
 <script>
    	var id_lugar_u,id_car_u;
     $(document).ready(function(){
