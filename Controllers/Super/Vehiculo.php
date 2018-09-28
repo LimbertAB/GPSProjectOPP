@@ -43,24 +43,5 @@ class Vehiculo extends Controllers{
          $this->vehiculo->set('id',$id);
          $this->vehiculo->alta();
      }
-     public function userLogin(){
-          if (isset($_POST['ci']) && isset($_POST['password'])) {
-               $this->vehiculo->set("ci",$_POST['ci']);
-               $this->vehiculo->set("password",$_POST['password']);
-               $data=$this->vehiculo->login();
-               if ($data!="false") {
-                    $this->createSession($data);
-                    $rows= json_encode($data);
-                    echo $rows;
-               }else{echo false;}
-         }
-     }
-     function createSession($user){
-          Session::setSession('User',$user);
-     }
-     function destroySession(){
-          Session::destroy();
-          header('Location:'.URL);
-     }
 }
  ?>

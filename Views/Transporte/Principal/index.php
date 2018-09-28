@@ -47,9 +47,7 @@
           </tbody>
      </table>
 </div>
-<style>
-	table thead tr {background: none;}table>thead>tr>th {color: #827a90;font-weight: 600;}
-</style>
+<style>table thead tr {background: none;}table>thead>tr>th {color: #827a90;font-weight: 600;}</style>
 <?php include 'modalverchofer.php';include 'modalverresponsable.php';include 'modalvervehiculo.php';include 'modalverboleta.php';include 'modalupdateusuario.php';?>
 <script>
      var id_persona_u,id_user_u;

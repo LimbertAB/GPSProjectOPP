@@ -51,6 +51,12 @@
 					            	</div>
 							</div>
 				        	</div>
+						<div class="form-group ">
+							<label class="col-sm-2 control-label">Origen</label>
+							<div class="col-sm-10">
+								<input type="text" id="inputorigen" class="form-control" placeholder="Ejemplo: Jica,snis,extensa,etc.">
+							</div>
+						</div>
 						<center>
 							<button class="btn btn-warning btn-lg" type="button" style="margin-bottom:15px" id="btnregistrar" disabled>REGISTRAR</button>
 						</center>

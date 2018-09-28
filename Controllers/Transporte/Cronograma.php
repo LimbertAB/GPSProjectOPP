@@ -11,6 +11,10 @@ class Cronograma extends Controllers{
          $resultado=$this->cronograma->listar();
          $this->view->render($this,"index",$resultado);
      }
+     public function calendar(){
+         $resultado=$this->cronograma->listar_calendar();
+         $this->view->render($this,"calendar",$resultado);
+     }
      public function ver($id){
          $this->cronograma->set('id',$id);
          $data=$this->cronograma->ver();

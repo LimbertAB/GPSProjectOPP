@@ -2,7 +2,7 @@
 	$months=["Enero","Febrero","Marzo", "Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 	$mes=$months[intval($resultado['month']) - 1];
 ?>
-<div class="fab" data-target="#newboletaModal" data-toggle="modal"> + </div>
+<div class="fab" data-target="#newboletaModal" data-toggle="modal" id="btnnewboletasign"> + </div>
 <div class="row">
 	<div class="row">
 		<div class="col-md-9">
@@ -107,24 +107,21 @@
 <?php 	include 'modalnewboleta.php';
 		include 'modalupdateboleta.php';?>
 <script>
+	var typemodal="";
    	var id_chofer_u,id_boleta_u,id_vehiculo_u,id_responsables_u=[],id_boletaresponsable_u=[];
     $(document).ready(function(){
+	     $('#inputsearch').keyup(function(){$('#myTabs a[href="#todos"]').tab('show');var data=$(this).val().toLowerCase().trim();SEARCH_DATA(data,"tableboletas","No se encontraron BOLETAS registradas.");});
 	     $('#datetimepickermes1').datetimepicker({locale: 'es',format: 'YYYY-MM',ignoreReadonly: true,viewMode: 'months'}).on('dp.change', function(e){
-		    var placeholder=$('#datetimepickermes1 input').attr('placeholder'),input=$('#datetimepickermes1 input').val(),entero=parseInt(e.date._d.getMonth())+1,au= entero < 10 ? ("0" + entero) : (entero);
-		    if (placeholder.toString()!=input.toString()) {
-			    window.location.href = "/<?php echo FOLDER;?>/Boleta?date="+e.date._d.getFullYear()+au;
-		    }
+		     var placeholder=$('#datetimepickermes1 input').attr('placeholder'),input=$('#datetimepickermes1 input').val(),entero=parseInt(e.date._d.getMonth())+1,au= entero < 10 ? ("0" + entero) : (entero);
+		     if (placeholder.toString()!=input.toString()) {
+			     window.location.href = "/<?php echo FOLDER;?>/Boleta?date="+e.date._d.getFullYear()+au;
+		     }
 	     });
 		$('#datetimepicker1,#datetimepicker2').datetimepicker({locale: 'es',format: 'YYYY-MM-DD',ignoreReadonly: true,viewMode: 'days'});
-
 		$('#datetimepicker1_u,#datetimepicker2_u').datetimepicker({locale: 'es',format: 'YYYY-MM-DD',ignoreReadonly: true,viewMode: 'years'}).on('dp.change', function(e){ function_validate("false");});
-
-		$('#inputsearch').keyup(function(){$('#myTabs a[href="#todos"]').tab('show');
-			var data=$(this).val().toLowerCase().trim();SEARCH_DATA(data,"tableboletas","No se encontraron BOLETAS registradas.");});
-
 		$('#inputobjetivo,#inputobjetivo_u,#inputlugar,#inputlugar_u').keypress(function(e){not_number(e);}).keyup(function(){if($(this).val().trim().length>7){small_error($(this).attr('toggle'),true);}else{small_error($(this).attr('toggle'),false);}function_validate($(this).attr('validate'));});
 		$('#inputunidad,#inputunidad_u,#inputuso,#inputuso_u').keypress(function(e){not_number(e);}).keyup(function(){if($(this).val().trim().length>5){small_error($(this).attr('toggle'),true);}else{small_error($(this).attr('toggle'),false);}function_validate($(this).attr('validate'));});
-
+		$('#btnnewboletasign').click(function(){typemodal="";});
 		$('#btnregistrar').click(function(){
 			$.ajax({
 				url: '<?php echo URL;?>Boleta/crear',
@@ -144,27 +141,29 @@
 				}}});
 		});
 		$("#selectresponsable").change(function(){function_validate('true');});
-		function function_validate(validate){
-			if(validate!="false"&&validate=="true"){
-				if(($('.fila1').hasClass('has-success'))&&($('.fila2').hasClass('has-success'))&&($('.fila3').hasClass('has-success'))&&($('.fila4').hasClass('has-success'))&&($('#selectresponsable').val()!=null)){
-					$("#btnregistrar").attr('disabled', false);}else{$("#btnregistrar").attr('disabled', true);}
-			}else{
-				if($('.fila1_u').hasClass('has-success') && $('.fila2_u').hasClass('has-success') && $('.fila3_u').hasClass('has-success') && $('.fila4_u').hasClass('has-success') && $('#selectresponsable_u').val()!=null){
-					if(($('#inputobjetivo_u').attr('placeholder')!=$('#inputobjetivo_u').val().trim().toLowerCase()) ||
-						($('#inputunidad_u').attr('placeholder')!=$('#inputunidad_u').val().trim().toLowerCase()) ||
-						($('#inputuso_u').attr('placeholder')!=$('#inputuso_u').val().trim().toLowerCase()) ||
-						($('#inputlugar_u').attr('placeholder')!=$('#inputlugar_u').val().trim().toLowerCase()) ||
-						($('#datetimepicker1_u input').attr('placeholder')!=$('#datetimepicker1_u input').val()) ||
-						($('#datetimepicker2_u input').attr('placeholder')!=$('#datetimepicker2_u input').val()) ||
-						($('#selectchofer_u option:selected').val()!=id_chofer_u) ||
-						($('#selectvehiculo_u option:selected').val()!=id_vehiculo_u) ||
-						(evaluar_responsables())
-					){
-						$("#buttonupdate").attr('disabled', false);
-					}else{$("#buttonupdate").attr('disabled', true);}
-				}else{$("#buttonupdate").attr('disabled', true);}
-			}
-		}
+
+		// function function_validate(validate){
+		// 	if(validate!="false"&&validate=="true"){
+		// 		if(($('.fila1').hasClass('has-success'))&&($('.fila2').hasClass('has-success'))&&($('.fila3').hasClass('has-success'))&&($('.fila4').hasClass('has-success'))&&($('#selectresponsable').val()!=null)){
+		// 			$("#btnregistrar").attr('disabled', false);}else{$("#btnregistrar").attr('disabled', true);}
+		// 	}else{
+		// 		if($('.fila1_u').hasClass('has-success') && $('.fila2_u').hasClass('has-success') && $('.fila3_u').hasClass('has-success') && $('.fila4_u').hasClass('has-success') && $('#selectresponsable_u').val()!=null){
+		// 			if(($('#inputobjetivo_u').attr('placeholder')!=$('#inputobjetivo_u').val().trim().toLowerCase()) ||
+		// 				($('#inputunidad_u').attr('placeholder')!=$('#inputunidad_u').val().trim().toLowerCase()) ||
+		// 				($('#inputuso_u').attr('placeholder')!=$('#inputuso_u').val().trim().toLowerCase()) ||
+		// 				($('#inputlugar_u').attr('placeholder')!=$('#inputlugar_u').val().trim().toLowerCase()) ||
+		// 				($('#datetimepicker1_u input').attr('placeholder')!=$('#datetimepicker1_u input').val()) ||
+		// 				($('#datetimepicker2_u input').attr('placeholder')!=$('#datetimepicker2_u input').val()) ||
+		// 				($('#selectchofer_u option:selected').val()!=id_chofer_u) ||
+		// 				($('#selectvehiculo_u option:selected').val()!=id_vehiculo_u) ||
+		// 				(evaluar_responsables())
+		// 			){
+		// 				$("#buttonupdate").attr('disabled', false);
+		// 			}else{$("#buttonupdate").attr('disabled', true);}
+		// 		}else{$("#buttonupdate").attr('disabled', true);}
+		// 	}
+		// }
+
 		//UPDATE boleta
 		$('#buttonupdate').click(function(){
 			var resp=[],resp_id=[],resp_estado=[],values=$('#selectresponsable_u').val(),aux=0;
@@ -208,6 +207,41 @@
 		});
           $('#selectchofer_u,#selectvehiculo_u,#selectresponsable_u').change(function(){function_validate("false");});
 		$('#selectresponsable_u').change(function(){console.log(evaluar_responsables());});
+
+		$('.checklugar,.checklugar_u').change(function () {
+			if ($('.checklugar'+typemodal+':checked').val()=="departamental") {
+				$('.classdepartamental'+typemodal).show();
+				$('.classprovincial'+typemodal).hide();
+			}else{
+				$('.classdepartamental'+typemodal).hide();
+				$('.classprovincial'+typemodal).show();
+			}
+			function_validate($(this).attr('validate'));
+		});
+		$("#selectmunicipio option,#selectestablecimiento option,#selectcomunidad option").hide();
+	     var seleccionado=$('#selectredsalud option:selected').val();
+	     $("#selectmunicipio option[value="+seleccionado+"]").show().selectpicker('refresh');
+
+		$("#selectmunicipio option,#selectestablecimiento option").hide();
+	     var seleccionado=$('#selectredsalud option:selected').val();
+	     $("#selectmunicipio option[value="+seleccionado+"]").show();
+
+	     $('#selectredsalud,#selectredsalud_u').change(function(){
+		     var seleccionado=$('#selectredsalud'+typemodal+' option:selected').val();
+		     $("#selectmunicipio"+typemodal+" option,#selectestablecimiento"+typemodal+" option").hide();
+		     $("#selectmunicipio"+typemodal+" option[value="+seleccionado+"]").show();
+		     $("#selectmunicipio"+typemodal+",#selectestablecimiento"+typemodal).prop("selectedIndex", 0);
+			$("#selectmunicipio"+typemodal+",#selectestablecimiento"+typemodal).selectpicker('refresh');
+			function_validate($(this).attr('validate'));
+	     });
+	     $('#selectmunicipio,#selectmunicipio_u').change(function(){
+		     var selecc=$('#selectmunicipio'+typemodal+' option:selected').attr('municipio');
+		     $("#selectestablecimiento"+typemodal+" option").hide();
+		     $("#selectestablecimiento"+typemodal+" option[value="+selecc+"]").show();
+		     $("#selectestablecimiento"+typemodal).prop("selectedIndex", 0);
+			$("#selectestablecimiento"+typemodal).selectpicker('refresh');
+			function_validate($(this).attr('validate'));
+	     });
 	});
 	function evaluar_responsables(){
 		var values=$('#selectresponsable_u').val()|| [],aux=0;
@@ -229,6 +263,7 @@
 		}
 	}
 	function updateAjax(val){
+		typemodal="_u";
 		small_error(".fila1_u",true);small_error(".fila2_u",true);small_error(".fila3_u",true);small_error(".fila4_u",true);$("#buttonupdate").attr('disabled', true);
 		id_responsables_u=[];
 		id_boletaresponsable_u=[];
@@ -312,6 +347,49 @@
 			$(".rowhidden_u").hide();
 		}else{
 			$(".rowhidden_u").show();
+		}
+	}
+
+	function function_validate(validate){
+		if(validate!="false"&&validate=="true"){
+			if(($('.fila1').hasClass('has-success'))&&($('.fila2').hasClass('has-success'))&&($('#selectresponsable').val()!=null)) {
+				if ($('.checklugar:checked').val()=="provincial") {
+					$("#btnregistrar").attr('disabled', false);
+				}else{
+					if ($('.fila3').hasClass('has-success')) {
+						$("#btnregistrar").attr('disabled', false);
+					}else{$("#btnregistrar").attr('disabled', true);}
+				}
+			}else{$("#btnregistrar").attr('disabled', true);}
+		}else{
+			if($('.fila1_u').hasClass('has-success') && $('.fila2_u').hasClass('has-success')&&($('#selectactividad_u option').length>0)&&$('#resultado_caja_u li').length>0&&$('#objetivo_caja_u li').length>0){
+				if(($('#datetimepicker1_u input').attr('placeholder')!=$('#datetimepicker1_u input').val()) ||
+					($('#datetimepicker2_u input').attr('placeholder')!=$('#datetimepicker2_u input').val()) ||
+					($('#selectactividad_u option:selected').attr('value')!=id_actividad_u) || validarbag
+				){
+					$("#buttonupdate").attr('disabled', false);
+				}else{$("#buttonupdate").attr('disabled', true);}
+			}else{$("#buttonupdate").attr('disabled', true);}
+
+			if($('.fila1_u').hasClass('has-success') && $('.fila2_u').hasClass('has-success') && $('#selectresponsable_u').val()!=null){
+				if ($('.checklugar:checked').val()=="departamental") {
+					if (!$('.fila3').hasClass('has-success')) {
+						$("#btnregistrar").attr('disabled', true);
+					}
+				}
+				if(($('#inputobjetivo_u').attr('placeholder')!=$('#inputobjetivo_u').val().trim().toLowerCase()) ||
+					($('#inputunidad_u').attr('placeholder')!=$('#inputunidad_u').val().trim().toLowerCase()) ||
+					($('#inputuso_u').attr('placeholder')!=$('#inputuso_u').val().trim().toLowerCase()) ||
+					($('#inputlugar_u').attr('placeholder')!=$('#inputlugar_u').val().trim().toLowerCase()) ||
+					($('#datetimepicker1_u input').attr('placeholder')!=$('#datetimepicker1_u input').val()) ||
+					($('#datetimepicker2_u input').attr('placeholder')!=$('#datetimepicker2_u input').val()) ||
+					($('#selectchofer_u option:selected').val()!=id_chofer_u) ||
+					($('#selectvehiculo_u option:selected').val()!=id_vehiculo_u) ||
+					(evaluar_responsables())
+				){
+					$("#buttonupdate").attr('disabled', false);
+				}else{$("#buttonupdate").attr('disabled', true);}
+			}else{$("#buttonupdate").attr('disabled', true);}
 		}
 	}
 </script>

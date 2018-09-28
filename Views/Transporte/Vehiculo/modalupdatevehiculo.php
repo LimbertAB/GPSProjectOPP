@@ -4,7 +4,7 @@
                <div class="modal-body" style="padding-top:0;padding-bottom:0;z-index:20">
 				<div class="row">
 	                   	<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="right: 5px;z-index:100;position:absolute"><span aria-hidden="true">&times;</span></button>
-	                   	<div class="col-md-4" height="100%" style="margin:0px;background:#0c2544;padding:25px 3px 0px 3px;z-index:-50;height: 460px;">
+	                   	<div class="col-md-4" height="100%" style="margin:0px;background:#0c2544;padding:15px 3px 0px 3px;z-index:-50;height: 505px;">
 	                       	<img src="<?php echo URL;?>public/images/icons/64/car.png" alt="profile" class="center-block" width="110px" style="padding:10px;margin-top:0px">
 	                       	<center class="umarca">
 	                           	<h5  style="color: #f2fafd;margin-top:0;margin-bottom:0px;text-transform:uppercase;z-index:900">Limbert <br> Arando Benavides</h5>
@@ -22,6 +22,10 @@
 						<center>
 	                           	<img src="<?php echo URL;?>public/images/icons/32/repair.png"  style="padding:15px 0 5px 0;margin-top:0px">
 	                           	<br><p class="uestado" style="line-height: .95em !important;text-transform: lowercase;color:#cde9e5">activo</p>
+	                       	</center>
+						<center>
+	                           	<img src="<?php echo URL;?>public/images/icons/32/origin.png"  style="padding:15px 0 5px 0;margin-top:0px">
+	                           	<br><p class="uorigen" style="line-height: .95em !important;text-transform: lowercase;color:#cde9e5">activo</p>
 	                       	</center>
 	                   	</div>
 	                    <?php mysql_data_seek($resultado['marcas'], 0);?>
@@ -61,8 +65,12 @@
 					                	</span>
 					            	</div>
 	                            	</div>
+							<div class="form-group" style="margin-bottom:10px">
+	                                	<label style="color:#3fd2e0;font-weight:400;font-family:arial;font-size:.8em;margin-bottom:2px">ORIGEN</label>
+	                                	<input type="text" id="inputorigen_u" class="form-control" validate="false">
+	                            	</div>
 	                            	<center>
-	                                	<button class="btn btn-warning btn-lg" style="margin:20px 0 18px 0px" id="buttonupdate" type="button" disabled>Guardar</button>
+	                                	<button class="btn btn-success" style="margin:20px 0 18px 0px" id="buttonupdate" type="button" disabled>Actualizar</button>
 	                            	</center>
 						</form>
 	                   	</div>

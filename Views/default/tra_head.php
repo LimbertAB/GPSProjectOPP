@@ -28,7 +28,7 @@
 		<script src="<?php echo URL;?>public/js/admin.js"></script>
 		<script src="<?php echo URL;?>public/js/puntos.js"></script>
 		<script src="<?php echo URL;?>public/js/fullcalendar.min.js"></script>
-		
+
 	</head>
 	<body class="hold-transition skin-blue sidebar-mini">
 		<div class="wrapper">
@@ -197,9 +197,25 @@
 							</a>
 						</li>
 						<li class="treeview">
-							<a href="/<?php echo FOLDER; ?>/Cronograma" style="cursor:pointer">
-								<i class="fa fa-calendar-check-o"></i><span>Cronogramas</span>
+							<a href="#">
+								<i class="fa fa-calendar-check-o"></i>
+								<span>Cronogramas</span>
+								<i class="fa fa-angle-left pull-right"></i>
 							</a>
+							<ul class="treeview-menu">
+								<li><a href="/<?php echo FOLDER;?>/Cronograma"><i class="fa fa-circle-o"></i>Ver Planificador</a></li>
+								<li><a href="/<?php echo FOLDER;?>/Cronograma/calendar"><i class="fa fa-circle-o"></i>Ver Cronograma</a></li>
+							</ul>
+						</li>
+						<li class="treeview">
+							<a href="#">
+								<i class="fa fa-wrench"></i>
+								<span>Configuración</span>
+								<i class="fa fa-angle-left pull-right"></i>
+							</a>
+							<ul class="treeview-menu">
+								<li><a href="/<?php echo FOLDER;?>/Configuracion/marca"><i class="fa fa-circle-o"></i>Marcas</a></li>
+							</ul>
 						</li>
 						<li class="treeview">
 							<a href="/<?php echo FOLDER; ?>/Reporte/viaje" style="cursor:pointer">

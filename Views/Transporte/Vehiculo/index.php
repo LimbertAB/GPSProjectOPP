@@ -110,16 +110,19 @@
 			var data=$(this).val().toLowerCase().trim();SEARCH_DATA(data,"tablecars","No se encontraron VEHICULOS registrados.");});
 
 		$('#inputtipo,#inputcolor,#inputtipo_u,#inputcolor_u').keypress(function(e){not_number(e);}).keyup(function(){if($(this).val().trim().length>2){small_error($(this).attr('toggle'),true);}else{small_error($(this).attr('toggle'),false);}function_validate($(this).attr('validate'));});
-		$('#inputplaca,#inputplaca_u').keypress(function(e){key_placa(e);}).keyup(function(){if($(this).val().trim().length>6 && $(this).val().trim().length<11){small_error($(this).attr('toggle'),true);}else{small_error($(this).attr('toggle'),false);}function_validate($(this).attr('validate'));});
-
+		var hasNumber = /\d/;
+		$('#inputplaca,#inputplaca_u').keypress(function(e){if ($(this).val().length<9) {key_placa(e);}else{e.preventDefault();}}).keyup(function(){var valor=$(this).val().split('-') == null ? ([]) : ($(this).val().split('-'));if($(this).val().length<10 && parseInt(valor[0])>99){if (valor[1]!=null) {if (valor[1].length==3 &&  !hasNumber.test(valor[1])) {small_error($(this).attr('toggle'),true);}else{small_error($(this).attr('toggle'),false);}}else{small_error($(this).attr('toggle'),false);}}else{small_error($(this).attr('toggle'),false);}function_validate($(this).attr('validate'));});
+		$('#inputorigen_u').keyup(function(){
+			function_validate("false")
+		});
 		$('#btnregistrar').click(function(){
 			$.ajax({
 				url: '<?php echo URL;?>Vehiculo/crear',
 				type: 'post',
-				data:{tipo:$('#inputtipo').val(),placa:$('#inputplaca').val(),color:$('#inputcolor').val(),id_marca:$('#selectmarca option:selected').val(),age:$('#datetimepicker input').val(),},
+				data:{tipo:$('#inputtipo').val(),placa:$('#inputplaca').val(),color:$('#inputcolor').val(),id_marca:$('#selectmarca option:selected').val(),age:$('#datetimepicker input').val(),origen:$('#inputorigen').val()},
 					success:function(obj){if (obj=="false") {$('#error_registro').show();}else{
 						swal("Mensaje de Alerta!", obj , "success");
-					setInterval(function(){ window.location.href = "/<?php echo FOLDER; ?>/Vehiculo"; }, 2000);
+					setInterval(function(){location.reload()}, 1000);
 				}}});
 		});
 
@@ -132,6 +135,7 @@
 					if(($('#inputtipo_u').attr('placeholder')!=$('#inputtipo_u').val().trim().toLowerCase()) ||
 						($('#inputplaca_u').attr('placeholder')!=$('#inputplaca_u').val().toLowerCase()) ||
 						($('#inputcolor_u').attr('placeholder')!=$('#inputcolor_u').val().toLowerCase()) ||
+						($('#inputorigen_u').attr('placeholder')!=$('#inputorigen_u').val().toLowerCase()) ||
 						($('#datetimepicker_u input').attr('placeholder')!=$('#datetimepicker_u input').val()) ||
 	                  		($('#selectmarca_u option:selected').val()!=id_marca_u)
 					){
@@ -153,13 +157,14 @@
 					placa_original:$('#inputplaca_u').attr('placeholder'),
 					id_marca:$('#selectmarca_u option:selected').val(),
 					age:$('#datetimepicker_u input').val(),
+					origen:$('#inputorigen_u').val(),
 				},
 				success:function(obj){
 					if (obj=="false") {
 						$('#error_update').show();
 					}else{
 						swal("Mensaje de Alerta!", obj , "success");
-						setInterval(function(){ window.location.href = "/<?php echo FOLDER;?>/Vehiculo"; }, 1500);
+						setInterval(function(){location.reload() }, 1000);
 					}
 				}
 			});
@@ -178,11 +183,13 @@
 				$('.umarca em').text(data.tipo.toLowerCase());
 				$('.uplaca').text(data.placa);$('.ucargo').text(data.cargo);
 				$('.ucolor').text(data.color);
+				$('.uorigen').text(data.origen==""?("Sin Origen"):(data.origen));
 				$('.uestado').text(data.estado==1 ? ("Activo"):(data.baja_detalle));
 				$('#inputtipo_u').val(data.tipo.toLowerCase());$('#inputtipo_u').attr('placeholder',data.tipo.toLowerCase());
 				$('#inputplaca_u').val(data.placa.toLowerCase());$('#inputplaca_u').attr('placeholder',data.placa.toLowerCase());
 				$('#inputcolor_u').val(data.color.toLowerCase());$('#inputcolor_u').attr('placeholder',data.color.toLowerCase());
 				$('#datetimepicker_u input').val(data.age);$('#datetimepicker_u input').attr('placeholder',data.age);
+				$('#inputorigen_u').val(data.origen.toLowerCase());$('#inputorigen_u').attr('placeholder',data.origen.toLowerCase());
 
 				$('#selectmarca_u option[value='+data.id_marca+']').attr('selected','selected');
 				$("#selectmarca_u").selectpicker('refresh');
@@ -234,7 +241,7 @@
 					if (obj=="false") {
 					}else{
 						swal("Mensaje de Alerta!", obj , "success");
-						setInterval(function(){ window.location.href = "/<?php echo FOLDER;?>/Vehiculo"; }, 1000);
+						setInterval(function(){ location.reload() }, 1000);
 					}
 				}
 			});

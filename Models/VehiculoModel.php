@@ -30,8 +30,8 @@
                     return "false";
                }else{
                     $date=date("Y-m-d H:i:s");
-                    $sql=("INSERT INTO vehiculo(id_marca,tipo,color,placa,age,created_at) VALUES(
-                         '{$this->id_marca}','{$this->tipo}','{$this->color}','{$this->placa}','{$this->age}','{$date}')");
+                    $sql=("INSERT INTO vehiculo(id_marca,tipo,color,placa,age,origen,created_at) VALUES(
+                         '{$this->id_marca}','{$this->tipo}','{$this->color}','{$this->placa}','{$this->age}','{$this->origen}','{$date}')");
                     parent::consultaSimple($sql);
                     return "El Vehiculo se Registro Satisfactoriamente";
                }
@@ -40,7 +40,7 @@
                $date=date("Y-m-d H:i:s");
                if($this->placa_original==$this->placa){
                     $sql=("UPDATE vehiculo SET id_marca='{$this->id_marca}',tipo='{$this->tipo}',
-                         color='{$this->color}',placa='{$this->placa_original}',age='{$this->age}',
+                         color='{$this->color}',placa='{$this->placa_original}',age='{$this->age}',origen='{$this->origen}',
                          updated_at='{$date}' WHERE id='{$this->id}'");
                }else{
                     $ver_placa=$this->ver_placa();
@@ -48,7 +48,7 @@
                          return "false";
                     }else{
                          $sql=("UPDATE vehiculo SET id_marca='{$this->id_marca}',tipo='{$this->tipo}',
-                              color='{$this->color}',placa='{$this->placa}',age='{$this->age}',
+                              color='{$this->color}',placa='{$this->placa}',age='{$this->age}',origen='{$this->origen}',
                               updated_at='{$date}' WHERE id='{$this->id}'");
                     }
                }
@@ -56,13 +56,13 @@
                return "El Vehiculo se Modifico Satisfactoriamente";
           }
           public function eliminar(){
-               $sql="UPDATE vehiculo SET estado=b'0',baja_detalle='{$this->baja_detalle}'
+               $sql="UPDATE vehiculo SET estado='0',baja_detalle='{$this->baja_detalle}'
                     WHERE id='{$this->id}'";
                parent::consultaSimple($sql);
                return "Vehiculo dado de Baja Satisfactoriamente";
           }
           public function alta(){
-               $sql="UPDATE vehiculo SET estado=b'1',baja_detalle=null
+               $sql="UPDATE vehiculo SET estado='1',baja_detalle=null
                     WHERE id='{$this->id}'";
                parent::consultaSimple($sql);
                echo "Vehiculo dado de ALTA Satisfactoriamente";

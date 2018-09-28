@@ -139,5 +139,12 @@
 
 
           }
+
+          public function listar_calendar(){
+               $boletas=parent::consultaRetorno("SELECT b.id,p.nombre,b.objetivo,b.fecha_de,b.fecha_hasta FROM boleta as b JOIN persona as p ON p.id=b.id_chofer WHERE b.estado=1");
+               $all = array();while($row = mysql_fetch_assoc($boletas)) {$all[] = $row;}
+               $result=["boletas"=>$all];
+               return $result;
+          }
      }
  ?>

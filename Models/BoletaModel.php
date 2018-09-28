@@ -20,11 +20,21 @@
                $choferes="SELECT id,nombre,brevet FROM persona WHERE estado='1' AND tipo=3";
                $responsables="SELECT * FROM responsable WHERE estado='1'";
                $vehiculos="SELECT v.id,v.tipo,v.placa,m.nombre as marca FROM vehiculo as v JOIN marca as m ON m.id = v.id_marca WHERE v.estado='1'";
+               $redsalud="SELECT * FROM redsalud";
+               $comunidad="SELECT * FROM comunidad";
+               $municipio="SELECT * FROM municipio";
+               $establecimiento="SELECT * FROM establecimiento";
+               $unidad="SELECT * FROM unidad WHERE estado=1";
                $result=["boletas"=> parent::consultaRetorno($boletas),
                          "bajas"=> parent::consultaRetorno($bajas),
                          "choferes"=> parent::consultaRetorno($choferes),
                          "vehiculos"=> parent::consultaRetorno($vehiculos),
                          "responsables"=> parent::consultaRetorno($responsables),"month"=> $this->month,"year"=>$this->year,
+                         "redsalud"=>parent::consultaRetorno($redsalud),
+                         "municipios"=>parent::consultaRetorno($municipio),
+                         "comunidades"=>parent::consultaRetorno($comunidad),
+                         "establecimientos"=>parent::consultaRetorno($establecimiento),
+                         "unidades"=>parent::consultaRetorno($unidad),
                ];
                return $result;
           }
