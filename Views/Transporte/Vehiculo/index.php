@@ -29,9 +29,10 @@
 									<td><h5><?php echo $num;?></h5></td>
 									<td style="text-align:left;padding-left:9px"><h5><?php echo ucwords(strtolower($row['marca']));?><small style="color:#05cce0"><?php echo " (".$row['age'].")";?></small></h5></td>
 									<td><h5><?php echo $row['tipo']; ?></h5></td>
-									<td><h5><?php echo $row['placa']; ?></h5></td>
+									<td><h5 style="text-transform:uppercase"><?php echo $row['placa']; ?></h5></td>
 									<td><h5><?php echo $row['color']; ?></h5></td>
 									<td>
+										<a  href="/<?php echo FOLDER;?>/Gps/ver_car/<?php echo $row['id'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a>
 										<a data-target="#updatevehiculoModal" data-toggle="modal" onclick="updateAjax(<?php echo $row['id'];?>)"><button title="ver vehiculo" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
 										<a  onclick="bajaAjax(<?php echo $row['id'];?>)"><button title="dar de baja vehiculo" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></a>
 									</td>

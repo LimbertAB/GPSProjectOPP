@@ -11,7 +11,7 @@
                return $this->$atributo;
           }
           public function listar(){
-               $cronograma=parent::consultaRetorno("SELECT * FROM cronograma WHERE YEAR(fecha_de)='{$this->year}' AND MONTH(fecha_de)='{$this->month}' ");
+               $cronograma=parent::consultaRetorno("SELECT * FROM cronograma WHERE (fecha_de BETWEEN '{$this->desde}' AND '{$this->hasta}') ");
                $all = array();
                while($row = mysql_fetch_assoc($cronograma)) {
                   $all[] = $row;
@@ -23,12 +23,11 @@
                     $all[$count]["total"]=$result['total'];
                     $count++;
                }
-               $mesanterior=intval($this->month)-1;
                $boletas=parent::consultaRetorno("SELECT b.*,c.id as id_cronograma,p.nombre as chofer,CONCAT(v.tipo,' (',v.placa,')') as vehiculo FROM boleta as b
                     LEFT JOIN cronograma_boleta as c ON c.id_boleta=b.id
                     JOIN persona as p ON p.id=b.id_chofer
                     JOIN vehiculo as v ON v.id=b.id_vehiculo
-                    WHERE YEAR(b.fecha_de)='{$this->year}' AND MONTH(b.fecha_de)='{$this->month}' OR (YEAR(b.fecha_de)='{$this->year}' AND MONTH(b.fecha_de)='{$mesanterior}')
+                    WHERE (b.fecha_de BETWEEN '{$this->desde}' AND '{$this->hasta}')
                     GROUP BY (b.id)");
                $all_boleta = array();while($row = mysql_fetch_assoc($boletas)) {$all_boleta[] = $row;}
                $au=0;
@@ -37,7 +36,7 @@
                     $au++;
                }
                $result=["cronogramas"=> $all,
-                         "month"=> $this->month,"year"=>$this->year,
+                         "desde"=> $this->desde,"hasta"=>$this->hasta,
                          "boletas"=>$all_boleta
                ];
                return $result;
@@ -120,11 +119,16 @@
                return "Cronograma dado de ALTA Satisfactoriamente";
           }
           public function imprimir(){
+               $user=parent::consultaRetorno("SELECT nombre FROM persona WHERE tipo=1 AND estado=1 LIMIT 1");
                $cronograma=parent::consultaRetorno("SELECT * FROM cronograma WHERE id='{$this->id}' LIMIT 1");
-               $boletas=parent::consultaRetorno("SELECT c.id as id_cronograma_boleta,b.*,CONCAT(v.tipo,' (',v.placa,')') as vehiculo ,CONCAT(p.nombre,' (', p.brevet ,')') as chofer FROM cronograma_boleta as c
+               $boletas=parent::consultaRetorno("SELECT c.id as id_cronograma_boleta,b.*,CONCAT(v.tipo,' (',v.placa,')') as vehiculo ,u.nombre as unidad,CONCAT(p.nombre,' (', p.brevet ,')') as chofer,r.nombre as redsalud,i.nombre as municipio,e.nombre as establecimiento FROM cronograma_boleta as c
                     JOIN boleta as b ON b.id = c.id_boleta
+                    JOIN unidad as u ON u.id = b.id_unidad
                     JOIN persona as p ON p.id = b.id_chofer
                     JOIN vehiculo as v ON v.id = b.id_vehiculo
+                    LEFT JOIN redsalud as r ON r.id = b.id_redsalud
+                    LEFT JOIN municipio as i ON i.id = b.id_municipio
+                    LEFT JOIN establecimiento as e ON e.id = b.id_establecimiento
                     WHERE c.id_cronograma='{$this->id}' ");
                $all = array();while($row = mysql_fetch_assoc($boletas)) {$all[] = $row;}
                $count=0;while ($count<count($all)) {
@@ -134,12 +138,11 @@
                     $all[$count]["responsables"]=$all2;
                     $count++;
                }
-               $result=["cronograma"=> mysql_fetch_assoc($cronograma),"boletas"=> $all];
+               $result=["cronograma"=> mysql_fetch_assoc($cronograma),"boletas"=> $all,"administradora"=> mysql_fetch_assoc($user)];
                return $result;
 
 
           }
-
           public function listar_calendar(){
                $boletas=parent::consultaRetorno("SELECT b.id,p.nombre,b.objetivo,b.fecha_de,b.fecha_hasta FROM boleta as b JOIN persona as p ON p.id=b.id_chofer WHERE b.estado=1");
                $all = array();while($row = mysql_fetch_assoc($boletas)) {$all[] = $row;}

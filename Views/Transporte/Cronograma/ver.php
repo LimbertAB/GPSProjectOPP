@@ -76,7 +76,6 @@
 			$("input[name='lista[]']:checked").each( function () {
 				id_boleta.push($(this).val());
 			});
-               console.log('cambiando');
 			validate();
 		});
 		$('#datetimepicker1,#datetimepicker2').datetimepicker({locale: 'es',format: 'YYYY-MM-DD',ignoreReadonly: true,viewMode: 'days'}).on('dp.change', function(e){ validate();});
@@ -120,10 +119,20 @@
                     $('.unombre h5').text(data.boletas.nombre);
 				$('.unombre p').text(data.boletas.brevet);
 				$('.uactividad').text(data.boletas.objetivo);
-				$('.uviaje').text(data.boletas.tipo + data.boletas.placa);
+				$('.uviaje').text(data.boletas.tipo +" ("+ data.boletas.placa+")");
 				$('.uciudad').text(data.boletas.lugares);
-				$('.ulugar').text(data.boletas.lugar);
-				$('.uestablecimiento').text(data.boletas.unidad);
+                    if (data.boletas.establecimiento!=null){
+                         $('.uciudad').text(data.boletas.establecimiento.toLowerCase());
+                    }else{
+                         if (data.boletas.municipio!=null) {
+                              $('.uciudad').text(data.boletas.municipio.toLowerCase());
+                         }else{
+                              if (data.boletas.redsalud!=null) {
+                                   $('.uciudad').text(data.boletas.redsalud.toLowerCase());
+                              }
+                         }
+                    }
+				$('.uestablecimiento').text(data.boletas.unidad.toLowerCase());
 				$('.utipo').text(data.uso);
 				$('.ufechahasta').text(data.boletas.fecha_hasta);
 				$('.ufechade').text(data.boletas.fecha_de);

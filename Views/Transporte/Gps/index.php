@@ -1,5 +1,4 @@
 <?php $months=["Enero","Febrero","Marzo", "Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-$mes=$months[intval($resultado['month']) - 1];
 ?>
 <script src="<?php echo URL;?>public/js/jspdf.debug.js"></script>
 <script src="<?php echo URL;?>public/js/jspdfpluginautotable.js"></script>
@@ -10,17 +9,32 @@ $mes=$months[intval($resultado['month']) - 1];
 <script src="<?php echo URL;?>public/js/print.js"></script>
 
 <div class="fab" data-target="#importgpsModal" data-toggle="modal"> + </div>
-<div class="col-md-12">
-	<div class="col-md-10">
-		<h2 class="text-center" style="margin:5px 0 1px 0;font-weight:300">LOCALIZACIONES GPS <small> (<?php echo $resultado['day']."-".$mes."-".$resultado['year']?>)</small> </h2>
+<div class="row">
+	<div class="col-md-5">
+		<h2 class="text-center" style="margin:5px 0 1px 0;font-weight:300">LOCALIZACIONES GPS</h2>
 	</div>
-	<div class="col-md-2" style="padding:0 10px 0 10px">
-		<div class='input-group date' id='datetimepickermes1'>
-			<input  readonly type='text' value="<?php echo $resultado['date']?>" class="form-control" placeholder="<?php echo $resultado['date']?>"/>
-			<span class="input-group-addon">
-				<span class="glyphicon glyphicon-calendar"></span>
-			</span>
-		</div>
+	<div class="col-md-7">
+		<form class="form-inline">
+			<div class="form-group">
+		    		<label for="exampleInputEmail2">DESDE</label>
+				<div class='input-group date' id='datetimepickermes1'>
+       			   	<input  readonly type='text' value="<?php echo $resultado['desde']?>" class="form-control" placeholder=" <?php echo $resultado['desde']?>"/>
+	       			<span class="input-group-addon">
+	       			    	<span class="glyphicon glyphicon-calendar"></span>
+	       		     </span>
+       		     </div>
+			</div>
+		  	<div class="form-group">
+		    		<label for="exampleInputEmail2">HASTA</label>
+				<div class='input-group date' id='datetimepickermes2'>
+       			   	<input  readonly type='text' value="<?php echo $resultado['hasta']?>" class="form-control" placeholder=" <?php echo $resultado['hasta']?>"/>
+	       			<span class="input-group-addon">
+	       			    	<span class="glyphicon glyphicon-calendar"></span>
+	       		     </span>
+       		     </div>
+		  	</div>
+			<button type="button" class="btn btn-info" name="button" id="buttonverporfecha">VER</button>
+		</form>
 	</div>
 </div>
 <div class="row" style="margin:10px"> <!-- SECTION TABLE PLANIFICACION -->
@@ -30,10 +44,11 @@ $mes=$months[intval($resultado['month']) - 1];
 				<thead>
 					<tr style="background-color: #313131">
 						<th width="6%">Nro</th>
-						<th width="28%">chofer</th>
-						<th width="25%">vehiculo</th>
-						<th  width="31%">descripción</th>
-						<th width="10%">Opciones</th>
+						<th width="20%">chofer</th>
+						<th width="20%">vehiculo</th>
+						<th  width="30%">descripción</th>
+						<th  width="10%">fecha</th>
+						<th width="14%">Opciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -41,11 +56,13 @@ $mes=$months[intval($resultado['month']) - 1];
 					<?php while($row=mysql_fetch_array($resultado["ubicaciones"])): ?>
 						<tr>
 							<td><h5><?php echo $aux;?></h5></td>
-							<td style="text-align:left;padding-left:9px"><h5> <a  href="/<?php echo FOLDER;?>/Gps/ver_people/<?php echo $row['id_chofer'];?>?date=<?php echo $resultado['year'].$resultado['month'].$resultado['day'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a> <?php echo $row['nombre'];?> <small> <?php echo $row['brevet']?></small> </h5></td>
-							<td style="text-align:left;padding-left:9px"><h5> <a  href="/<?php echo FOLDER;?>/Gps/ver_car/<?php echo $row['id_vehiculo'];?>?date=<?php echo $resultado['year'].$resultado['month'].$resultado['day'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a> <?php echo $row['tipo'];?> <small> <?php echo $row['placa']?></small> </h5></td>
-							<td><h5><?php echo $row['descripcion'];?> Ubicaciones</h5></td>
+							<td style="text-align:left;padding-left:9px"><h5> <a  href="/<?php echo FOLDER;?>/Gps/ver_people/<?php echo $row['id_chofer'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a> <?php echo $row['nombre'];?> <small> <?php echo $row['brevet']?></small> </h5></td>
+							<td style="text-align:left;padding-left:9px"><h5> <a  href="/<?php echo FOLDER;?>/Gps/ver_car/<?php echo $row['id_vehiculo'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a> <?php echo $row['tipo'];?> <small> <?php echo $row['placa']?></small> </h5></td>
+							<td><h5><?php echo $row['descripcion'];?></h5></td>
+							<td><h5><?php echo $row['fecha'];?></h5></td>
 							<td>
 								<button title="imprimir reporte" type="button" onclick="verAjax(<?php echo $row['id'] ?>)" id="btnprint<?php echo $row['id'] ?>" data-loading-text="Generando pdf..." class="btn btn-info btn-xs btn_all_print" autocomplete="off">Descargar</button>
+								<a href="/<?php echo FOLDER?>/Gps/ver_gps/<?php echo $row['id']?>"><button type="button" class="btn btn-warning btn-xs"> ver gps</button></a>
 							</td>
 						</tr>
 						<?php $aux++; ?>
@@ -78,15 +95,13 @@ $mes=$months[intval($resultado['month']) - 1];
 <script>
    	var id_planificacion_u;
      $(document).ready(function(){
+		$('#datetimepicker1,#datetimepickermes1,#datetimepickermes2').datetimepicker({locale: 'es',format: 'YYYY-MM-DD',ignoreReadonly: true,viewMode: 'days'});
 	    $('#inputsearch').keyup(function(){
 		var data=$(this).val().toLowerCase().trim();SEARCH_DATA(data,"tablegps","No se encontraron VIAJES registrados.");});
-		$('#datetimepickermes1').datetimepicker({locale: 'es',format: 'YYYY-MM-DD',ignoreReadonly: true,viewMode: 'days'}).on('dp.change', function(e){
-    			var placeholder=$('#datetimepickermes1 input').attr('placeholder'),input=$('#datetimepickermes1 input').val(),entero=parseInt(e.date._d.getMonth())+1,au= entero < 10 ? ("0" + entero) : (entero);
-    			var dia=parseInt(e.date._d.getDate()),diaactual= dia < 10 ? ("0" + dia) : (dia);
-    			if (placeholder.toString()!=input.toString()) {
-    				window.location.href = "/<?php echo FOLDER;?>/Gps?date="+e.date._d.getFullYear()+au+diaactual;
-    			}
-    		});
+
+		$('#buttonverporfecha').click(function(){
+			window.location.href = "/<?php echo FOLDER;?>/Gps?desde="+$('#datetimepickermes1 input').val()+"&hasta="+$('#datetimepickermes2 input').val();
+		});
 		$('#textareaobjetivo').keyup(function(){console.log($(this).val().trim().length);if ($(this).val().trim().length>5) {$("#buttonregistrar").attr('disabled', false);validate_sinsmall('.fila1',true);}else{$("#buttonregistrar").attr('disabled', true);validate_sinsmall('.fila1',false);}});
 	});
 	function registrarAjax(){

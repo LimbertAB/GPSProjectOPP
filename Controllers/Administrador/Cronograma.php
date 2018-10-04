@@ -6,10 +6,10 @@ class Cronograma extends Controllers{
           $this->cronograma=parent::loadClassmodels("CronogramaModel");
      }
      public function index(){
-          $this->cronograma->set('year',isset($_GET['date'])? substr($_GET['date'], 0, -2):date('Y'));
-          $this->cronograma->set('month',isset($_GET['date'])? substr($_GET['date'], -2):date('m'));
-         $resultado=$this->cronograma->listar();
-         $this->view->render($this,"index",$resultado);
+          $this->cronograma->set('desde',isset($_GET['desde'])? $_GET['desde'] : date('Y-m-').'01');
+          $this->cronograma->set('hasta',isset($_GET['desde'])?$_GET['hasta'] : date('Y-m-t'));
+          $resultado=$this->cronograma->listar();
+          $this->view->render($this,"index",$resultado);
      }
      public function ver($id){
          $this->cronograma->set('id',$id);

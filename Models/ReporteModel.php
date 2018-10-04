@@ -27,21 +27,33 @@
           public function viaje(){
                $viajes="SELECT b.id_chofer,count(*) as total,p.nombre FROM boleta as b
                     JOIN persona as p ON p.id=b.id_chofer
-                    WHERE YEAR(b.fecha_de) = '{$this->year}' AND MONTH(b.fecha_de) ='{$this->month}' GROUP BY b.id_chofer ";
+                    WHERE (b.fecha_de BETWEEN '{$this->desde}' AND '{$this->hasta}') GROUP BY b.id_chofer ";
                $result=["todos"=> parent::consultaRetorno($viajes),
-                         "month"=>$this->month,"year"=>$this->year
+                    "desde"=> $this->desde,"hasta"=>$this->hasta
                ];
                return $result;
           }
           public function imprimir_uno(){
                $chofer="SELECT * FROM persona WHERE id='{$this->id}' LIMIT 1";
-               $viajes="SELECT b.*,v.tipo as vehiculo,m.nombre as marca FROM boleta as b
+               $viajes=parent::consultaRetorno("SELECT b.*,CONCAT(v.tipo,' (',v.placa,')') as vehiculo,m.nombre as marca,v.placa, u.nombre as unidad,r.nombre as redsalud,i.nombre as municipio,e.nombre as establecimiento FROM boleta as b
                     JOIN vehiculo as v ON v.id=b.id_vehiculo
                     JOIN marca as m ON m.id=v.id_marca
-                    WHERE YEAR(b.fecha_de) = '{$this->year}' AND MONTH(b.fecha_de) ='{$this->month}' AND b.id_chofer='{$this->id}' ";
+                    JOIN unidad as u ON u.id=b.id_unidad
+                    LEFT JOIN redsalud as r ON r.id = b.id_redsalud
+                    LEFT JOIN municipio as i ON i.id = b.id_municipio
+                    LEFT JOIN establecimiento as e ON e.id = b.id_establecimiento
+                    WHERE (b.fecha_de BETWEEN '{$this->desde}' AND '{$this->hasta}') AND b.id_chofer='{$this->id}' ");
+               $all = array();while($row = mysql_fetch_assoc($viajes)) {$all[] = $row;}
+               $count=0;while ($count<count($all)) {
+                    $id_a=$all[$count]['id'];
+                    $result=parent::consultaRetorno("SELECT CONCAT(r.nombre,' ',r.apellido) as nombre FROM boleta_responsable as b JOIN responsable as r ON r.id=b.id_responsable WHERE b.id_boleta = '{$id_a}' ");
+                    $all2 = array();while($row = mysql_fetch_assoc($result)) {$all2[] = $row;}
+                    $all[$count]["responsables"]=$all2;
+                    $count++;
+               }
                $result=["chofer"=> mysql_fetch_assoc(parent::consultaRetorno($chofer)),
-                         "viajes"=> parent::consultaRetorno($viajes),
-                         "month"=>$this->month,"year"=>$this->year
+                         "boletas"=> $all,
+                         "desde"=> $this->desde,"hasta"=>$this->hasta
                ];
                return $result;
           }

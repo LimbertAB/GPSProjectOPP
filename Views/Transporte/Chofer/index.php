@@ -30,6 +30,7 @@
 									<td style="text-align:left;padding-left:9px"><h5><?php echo ucwords(strtolower($row['nombre'])); ?></h5></td>
 									<td><h5><?php echo ucwords(strtolower($row['unidad'])); ?></h5></td>
 									<td>
+										<a  href="/<?php echo FOLDER;?>/Gps/ver_people/<?php echo $row['id'];?>"><span title="ver ubicaciones" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a>
 										<a data-target="#updatechoferModal" data-toggle="modal" onclick="updateAjax(<?php echo $row['id'];?>)"><button title="editar chofer" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
 										<a  onclick="bajaAjax(<?php echo $row['id'];?>)"><button title="dar de baja chofer" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></a>
 									</td>

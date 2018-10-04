@@ -1,17 +1,29 @@
-<?php $months=["Enero","Febrero","Marzo", "Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-$mes=$months[intval($resultado['month']) - 1];
-?>
-<div class="col-md-12">
-	<div class="col-md-10">
-		<h2 class="text-center" style="margin:5px 0 1px 0;font-weight:300">REPORTE DE VIAJES <small>(<?php echo $mes."-".$resultado['year']?>)</small> </h2>
+<div class="row">
+	<div class="col-md-5">
+		<h2 class="text-center" style="margin:5px 0 1px 0;font-weight:300">REPORTE DE VIAJES</h2>
 	</div>
-	<div class="col-md-2">
-	   <div class='input-group date' id='datetimepickermes2'>
-		   <input  readonly type='text' value="<?php echo $resultado['year']."-".$resultado['month'] ?>" class="form-control" placeholder=" <?php echo $resultado['year']."-".$resultado['month'] ?>"/>
-		 <span class="input-group-addon">
-		    <span class="glyphicon glyphicon-calendar"></span>
-		 </span>
-	   </div>
+	<div class="col-md-7">
+		<form class="form-inline">
+			<div class="form-group">
+		    		<label for="exampleInputEmail2">DESDE</label>
+				<div class='input-group date' id='datetimepickermes1'>
+       			   	<input  readonly type='text' value="<?php echo $resultado['desde']?>" class="form-control" placeholder=" <?php echo $resultado['desde']?>"/>
+	       			<span class="input-group-addon">
+	       			    	<span class="glyphicon glyphicon-calendar"></span>
+	       		     </span>
+       		     </div>
+			</div>
+		  	<div class="form-group">
+		    		<label for="exampleInputEmail2">HASTA</label>
+				<div class='input-group date' id='datetimepickermes2'>
+       			   	<input  readonly type='text' value="<?php echo $resultado['hasta']?>" class="form-control" placeholder=" <?php echo $resultado['hasta']?>"/>
+	       			<span class="input-group-addon">
+	       			    	<span class="glyphicon glyphicon-calendar"></span>
+	       		     </span>
+       		     </div>
+		  	</div>
+			<button type="button" class="btn btn-info" name="button" id="buttonverporfecha">VER</button>
+		</form>
 	</div>
 </div>
 <div class="row" style="margin:10px"> <!-- SECTION TABLE PLANIFICACION -->
@@ -23,7 +35,6 @@ $mes=$months[intval($resultado['month']) - 1];
 						<th width="10%">Nro</th>
 						<th width="40%">chofer</th>
 						<th  width="20%">viajes</th>
-						<th width="20%">mes</th>
 						<th width="10%">Opciones</th>
 					</tr>
 				</thead>
@@ -34,9 +45,8 @@ $mes=$months[intval($resultado['month']) - 1];
 							<td><h5><?php echo $aux;?></h5></td>
 							<td style="text-align:left;padding-left:9px"><h5><?php echo $row['nombre'];?></h5></td>
 							<td><h5><?php echo $row['total'];?> Viajes</h5></td>
-                                   <td><h5><?php echo $mes;?></h5> </td>
 							<td>
-								<a  href="/<?php echo FOLDER;?>/Reporte/printonepdf/<?php echo $row['id_chofer'];?>?month=<?php echo $resultado['month'];?>?year=<?php echo $resultado['year'];?>" target="_blank"><button title="imprimir reporte" type="button" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></button></a>
+								<a  href="/<?php echo FOLDER;?>/Reporte/printonepdf/<?php echo $row['id_chofer'];?>?desde=<?php echo $resultado['desde'];?>&hasta=<?php echo $resultado['hasta'];?>" target="_blank"><button title="imprimir reporte" type="button" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></button></a>
 							</td>
 						</tr>
 						<?php $aux++; ?>
@@ -59,14 +69,11 @@ $mes=$months[intval($resultado['month']) - 1];
 <script>
    	var id_planificacion_u;
     $(document).ready(function(){
-	    $('#inputsearch').keyup(function(){
-		    var data=$(this).val().toLowerCase().trim();SEARCH_DATA(data,"tableplanificacion","No se encontraron VIAJES registrados.");});
-
-		$('#datetimepickermes2').datetimepicker({locale: 'es',format: 'YYYY-MM',ignoreReadonly: true,viewMode: 'months'}).on('dp.change', function(e){
-			var placeholder=$('#datetimepickermes2 input').attr('placeholder'),input=$('#datetimepickermes2 input').val(),entero=parseInt(e.date._d.getMonth())+1,au= entero < 10 ? ("0" + entero) : (entero);
-			if (placeholder.toString()!=input.toString()) {
-				window.location.href = "/<?php echo FOLDER;?>/Reporte/viaje?year="+e.date._d.getFullYear()+"&month="+au;
-			}
-		});
+	     $('#datetimepickermes1,#datetimepickermes2').datetimepicker({locale: 'es',format: 'YYYY-MM-DD',ignoreReadonly: true,viewMode: 'days'});
+	     $('#inputsearch').keyup(function(){
+		     var data=$(this).val().toLowerCase().trim();SEARCH_DATA(data,"tableplanificacion","No se encontraron VIAJES registrados.");});
+		$('#buttonverporfecha').click(function(){
+ 		    window.location.href = "/<?php echo FOLDER;?>/Reporte/viaje?desde="+$('#datetimepickermes1 input').val()+"&hasta="+$('#datetimepickermes2 input').val();
+ 	     });
 	});
 </script>

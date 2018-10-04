@@ -41,14 +41,14 @@
                          </div>
 					<div class="col-md-6">
                               <center>
-	                           	<img src="<?php echo URL;?>public/images/icons/32/hospital.png"  style="padding:15px 0 5px 0;margin-top:0px">
-	                           	<br><p class="uestablecimiento" style="line-height: .95em !important;color:#797979">reterter</p>
-	                       	</center>
-                         </div>
-                         <div class="col-md-6">
-                              <center>
 	                           	<img src="<?php echo URL;?>public/images/icons/32/placeholder.png"  style="padding:15px 0 5px 0;margin-top:0px">
 		                         <br><p class="uciudad" style="line-height: .95em !important;text-transform: lowercase;color:#797979">reterterte</p>
+	                       	</center>
+                         </div>
+					<div class="col-md-6">
+                              <center>
+	                           	<img src="<?php echo URL;?>public/images/icons/32/hospital.png"  style="padding:15px 0 5px 0;margin-top:0px">
+	                           	<br><p class="uestablecimiento" style="line-height: .95em !important;color:#797979">reterter</p>
 	                       	</center>
                          </div>
 					<div class="col-md-6">

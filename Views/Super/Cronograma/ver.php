@@ -14,13 +14,13 @@
 			<table id="tableboletas" class="table table-striped table-condensed table-hover">
                     <thead>
                          <tr style="background-color: #313131">
-                              <th rowspan="20" width="20%" style="padding-bottom:10px;">vehiculo</th>
+                              <th rowspan="20" width="18%" style="padding-bottom:10px;">vehiculo</th>
                               <th rowspan="20" width="20%" style="padding-bottom:10px;">chofer</th>
                               <th rowspan="15" width="10%" style="padding-bottom:10px;">lugar / municipio</th>
                               <th rowspan="15" width="10%" style="padding-bottom:10px;">objetivo</th>
-                              <th rowspan="15" width="10%" style="padding-bottom:10px;">responsables</th>
+                              <th rowspan="15" width="14%" style="padding-bottom:10px;">responsables</th>
                               <th width="10%" colspan="2" style="padding:0;margin:0">fecha</th>
-                              <th rowspan="2" width="10%" style="padding-bottom:10px;">opción</th>
+                              <th rowspan="2" width="8%" style="padding-bottom:10px;">opción</th>
                          </tr>
                          <tr style="background-color: #555555">
                               <th width="8%" style="padding:0;margin:0;font-size:.9em">inicio</th>
@@ -74,7 +74,7 @@
 			var data=$(this).val().toLowerCase().trim();SEARCH_DATA(data,"tableboletas","No se encontraron coincidencias en este Cronograma");});
 	});
      function verAjax(val){
-		$.ajax({
+          $.ajax({
 			url: '<?php echo URL;?>Boleta/ver/'+val,
 			type: 'get',
 			success:function(obj){
@@ -82,10 +82,20 @@
                     $('.unombre h5').text(data.boletas.nombre);
 				$('.unombre p').text(data.boletas.brevet);
 				$('.uactividad').text(data.boletas.objetivo);
-				$('.uviaje').text(data.boletas.tipo + data.boletas.placa);
+				$('.uviaje').text(data.boletas.tipo +" ("+ data.boletas.placa+")");
 				$('.uciudad').text(data.boletas.lugares);
-				$('.ulugar').text(data.boletas.lugar);
-				$('.uestablecimiento').text(data.boletas.unidad);
+                    if (data.boletas.establecimiento!=null){
+                         $('.uciudad').text(data.boletas.establecimiento.toLowerCase());
+                    }else{
+                         if (data.boletas.municipio!=null) {
+                              $('.uciudad').text(data.boletas.municipio.toLowerCase());
+                         }else{
+                              if (data.boletas.redsalud!=null) {
+                                   $('.uciudad').text(data.boletas.redsalud.toLowerCase());
+                              }
+                         }
+                    }
+				$('.uestablecimiento').text(data.boletas.unidad.toLowerCase());
 				$('.utipo').text(data.uso);
 				$('.ufechahasta').text(data.boletas.fecha_hasta);
 				$('.ufechade').text(data.boletas.fecha_de);

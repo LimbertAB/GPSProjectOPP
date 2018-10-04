@@ -6,8 +6,8 @@ class Instructivo extends Controllers{
           $this->instructivo=parent::loadClassmodels("InstructivoModel");
      }
      public function index(){
-          $this->instructivo->set('year',isset($_GET['date'])? substr($_GET['date'], 0, -2):date('Y'));
-          $this->instructivo->set('month',isset($_GET['date'])? substr($_GET['date'], -2):date('m'));
+          $this->instructivo->set('desde',isset($_GET['desde'])? $_GET['desde'] : date('Y-m-').'01');
+          $this->instructivo->set('hasta',isset($_GET['desde'])?$_GET['hasta'] : date('Y-m-t'));
           $resultado=$this->instructivo->listar();
           $this->view->render($this,"index",$resultado);
      }

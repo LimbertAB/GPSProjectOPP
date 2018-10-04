@@ -14,35 +14,63 @@
                $ubicaciones="SELECT g.*,v.tipo,v.placa,p.nombre,p.brevet FROM gps as g
                     JOIN vehiculo as v ON v.id=g.id_vehiculo
                     JOIN persona as p ON p.id=g.id_chofer
-                    WHERE YEAR(g.fecha) = '{$this->year}' AND MONTH(g.fecha) ='{$this->month}' AND DAY(g.fecha) ='{$this->day}' GROUP BY g.id_vehiculo ";
+                    WHERE (g.fecha BETWEEN '{$this->desde}' AND '{$this->hasta}') GROUP BY g.id_vehiculo ";
                $vehiculos="SELECT v.id,v.tipo,v.placa,m.nombre as marca FROM vehiculo as v JOIN marca as m ON m.id = v.id_marca WHERE v.estado='1'";
                $choferes="SELECT id,nombre,brevet FROM persona WHERE estado='1' AND tipo=3";
                $result=["ubicaciones"=> parent::consultaRetorno($ubicaciones),
                          "vehiculos"=> parent::consultaRetorno($vehiculos),
                          "choferes"=> parent::consultaRetorno($choferes),
-                         "month"=>$this->month,"year"=>$this->year,"day"=>$this->day,
-                         "date"=>$this->year."-".$this->month."-".$this->day,
+                         "desde"=> $this->desde,"hasta"=>$this->hasta
+               ];
+               return $result;
+          }
+          public function ver_gps(){
+               $date=date('Y-d-m');
+               $locaciones=parent::consultaRetorno("SELECT g.*, CONCAT(p.nombre,' - ',p.brevet) AS nombre FROM gps as g
+               JOIN persona as p ON p.id = g.id_chofer WHERE g.id='{$this->id}' LIMIT 1");
+               $vehiculo= mysql_fetch_assoc(parent::consultaRetorno("SELECT v.id,v.tipo as nombre,v.placa as document,m.nombre as marca FROM gps as g
+                    JOIN vehiculo as v ON v.id=g.id_vehiculo
+                    JOIN marca as m ON m.id = v.id_marca
+                    WHERE g.id = '{$this->id}' LIMIT 1"));
+               $result=["objeto"=> $vehiculo,
+                         "locaciones"=> mysql_fetch_assoc($locaciones),
+                         "date"=>$date,"mode"=>1
                ];
                return $result;
           }
           public function ver_chofer(){
                $chofer= mysql_fetch_assoc(parent::consultaRetorno("SELECT id,nombre,brevet as document FROM persona  WHERE id = '{$this->id}' LIMIT 1"));
-               $locaciones=mysql_fetch_assoc(parent::consultaRetorno("SELECT g.*, CONCAT(v.tipo,' - ',v.placa) AS nombre FROM gps as g
-                    JOIN vehiculo as v ON v.id = g.id_vehiculo WHERE g.id_chofer='{$this->id}' AND YEAR(g.fecha) = '{$this->year}' AND MONTH(g.fecha) ='{$this->month}'AND DAY(g.fecha) ='{$this->day}' LIMIT 1"));
+               if ($this->year==null) {
+                    $locaciones=mysql_fetch_assoc(parent::consultaRetorno("SELECT g.*, CONCAT(v.tipo,' - ',v.placa) AS nombre FROM gps as g
+                         JOIN vehiculo as v ON v.id = g.id_vehiculo WHERE g.id_chofer='{$this->id}' ORDER BY g.id DESC LIMIT 1"));
+                    $date=$locaciones["fecha"];
+               }else{
+                    $locaciones=mysql_fetch_assoc(parent::consultaRetorno("SELECT g.*, CONCAT(v.tipo,' - ',v.placa) AS nombre FROM gps as g
+                         JOIN vehiculo as v ON v.id = g.id_vehiculo WHERE g.id_chofer='{$this->id}' AND YEAR(g.fecha) = '{$this->year}' AND MONTH(g.fecha) ='{$this->month}' AND DAY(g.fecha) ='{$this->day}' LIMIT 1"));
+                    $date=$this->year."-".$this->month."-".$this->day;
+               }
                $result=["objeto"=> $chofer,
                          "locaciones"=> $locaciones,
-                         "date"=>$this->year."-".$this->month."-".$this->day,"mode"=>0
+                         "date"=>$date,"mode"=>0
                ];
                return $result;
           }
           public function ver_vehiculo(){
                $vehiculo= mysql_fetch_assoc(parent::consultaRetorno("SELECT v.id,v.tipo as nombre,v.placa as document,m.nombre as marca FROM vehiculo as v JOIN marca as m ON m.id = v.id_marca WHERE v.id = '{$this->id}' LIMIT 1"));
-               $locaciones=parent::consultaRetorno("SELECT g.*, CONCAT(p.nombre,' - ',p.brevet) AS nombre FROM gps as g
-               JOIN persona as p ON p.id = g.id_chofer
-               WHERE g.id_vehiculo='{$this->id}' AND YEAR(g.fecha) = '{$this->year}' AND MONTH(g.fecha) ='{$this->month}' AND DAY(g.fecha) ='{$this->day}' LIMIT 1");
+               if ($this->year==null) {
+                    $locaciones=mysql_fetch_assoc(parent::consultaRetorno("SELECT g.*, CONCAT(p.nombre,' - ',p.brevet) AS nombre FROM gps as g
+                    JOIN persona as p ON p.id = g.id_chofer
+                    WHERE g.id_vehiculo='{$this->id}' ORDER BY g.id DESC LIMIT 1"));
+                    $date=$locaciones["fecha"];
+               }else{
+                    $locaciones=parent::consultaRetorno("SELECT g.*, CONCAT(p.nombre,' - ',p.brevet) AS nombre FROM gps as g
+                    JOIN persona as p ON p.id = g.id_chofer
+                    WHERE g.id_vehiculo='{$this->id}' AND YEAR(g.fecha) = '{$this->year}' AND MONTH(g.fecha) ='{$this->month}' AND DAY(g.fecha) ='{$this->day}' LIMIT 1");
+                    $date=$this->year."-".$this->month."-".$this->day;
+               }
                $result=["objeto"=> $vehiculo,
-                         "locaciones"=> mysql_fetch_assoc($locaciones),
-                         "date"=>$this->year."-".$this->month."-".$this->day,"mode"=>1
+                         "locaciones"=> $locaciones,
+                         "date"=>$date,"mode"=>1
                ];
                return $result;
           }

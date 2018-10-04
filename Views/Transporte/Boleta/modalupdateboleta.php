@@ -7,7 +7,7 @@
                     	<?php mysql_data_seek($resultado['responsables'], 0);mysql_data_seek($resultado['choferes'], 0);mysql_data_seek($resultado['vehiculos'], 0);mysql_data_seek($resultado['unidades'], 0);?>
                        	<center><h3 style="margin-top:5px;color: #1cd2dc;font-weight: 700;">MODIFICAR BOLETA</h3></center>
 				   	<form autocomplete="off">
-						<div class="form-group has-feedback has-success fila2_u" style="margin-bottom:10px">
+						<div class="form-group" style="margin-bottom:10px">
 	                              <label style="color:#3fd2e0;font-weight:400;font-family:arial;font-size:.8em;margin-bottom:2px">UNIDAD</label>
 							<select id="selectunidad_u" class="form-control selectpicker show-tick" data-live-search="true" validate=true>
 								<?php while($row=mysql_fetch_array($resultado['unidades'])): ?>
@@ -20,9 +20,9 @@
                                 	<input type="text" id="inputobjetivo_u" class="form-control input-sm" validate="false" toggle=".fila1_u">
                                 	<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                             	</div>
-						<div class="form-group has-feedback has-success fila3_u" style="margin-bottom:10px">
+						<div class="form-group has-feedback has-success fila2_u" style="margin-bottom:10px">
 	                              <label style="color:#3fd2e0;font-weight:400;font-family:arial;font-size:.8em;margin-bottom:2px">USO</label>
-                                	<input type="text" id="inputuso_u" class="form-control input-sm" validate="false" toggle=".fila3_u">
+                                	<input type="text" id="inputuso_u" class="form-control input-sm" validate="false" toggle=".fila2_u">
                                 	<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                             	</div>
 						<div class="col-md-6">
@@ -70,7 +70,7 @@
 							<div class='input-group'>
 								<select class="form-control selectpicker show-tick" id="selectvehiculo_u" data-show-subtext="true" data-live-search="true">
 									<?php while($row=mysql_fetch_array($resultado['vehiculos'])): ?>
-										<option value="<?php echo $row['id'];?>"  data-subtext="<?php echo ucwords(strtolower($row['marca']));?>"><?php echo ucwords(strtoupper($row['tipo']));?> - <?php echo $row['placa'];?></option>
+										<option value="<?php echo $row['id']?>"  data-subtext="<?php echo ucwords(strtolower($row['marca']));?>"><?php echo ucwords(strtoupper($row['tipo']));?> - <?php echo $row['placa'];?></option>
 									<?php endwhile; ?>
 								</select>
 								<span class="input-group-addon"><span class="glyphicon glyphicon-bed"></span></span>
@@ -110,9 +110,10 @@
 											</div>
 											<div class="form-group  has-feedback has-error fila3_u classdepartamental_u">
 												<label>Descripción del lugar</label>
-												<input type="text" id="inputlugar_u" class="form-control" placeholder="Ejemplo: Municipio de Cotagaita" validate=true toggle=".fila3_u">
+												<input type="text" id="inputlugar_u" class="form-control" placeholder="Ejemplo: Municipio de Cotagaita" validate=false toggle=".fila3_u">
 												<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden=true></span>
 											</div>
+											<?php mysql_data_seek($resultado['redsalud'], 0);mysql_data_seek($resultado['municipios'], 0);mysql_data_seek($resultado['establecimientos'], 0);?>
 											<div class="form-group classprovincial_u" style="display:none">
 												<label>Red De Salud</label>
 												<select id="selectredsalud_u" class="form-control selectpicker show-tick" data-live-search="true" validate=false>
@@ -124,18 +125,18 @@
 											<div class="form-group classprovincial_u" style="display:none">
 												<label>Municipio</label>
 												<select id="selectmunicipio_u" class="form-control selectpicker show-tick" data-live-search="true" data-show-subtext="true" validate=false>
-													<option disabled selected value> -- seleccione un municipio -- </option>
+													<option disabled selected value municipio="0"> -- seleccione un municipio -- </option>
 													<?php while($row=mysql_fetch_array($resultado['municipios'])): ?>
-														<option value="<?php echo $row['id_redsalud'];?>" municipio="<?php echo $row['id'];?>" data-subtext="<?php echo ucwords(strtolower($row['redsalud']));?>"><?php echo ucwords(strtolower($row['nombre']));?></option>
+														<option value="<?php echo $row['id_redsalud'];?>" municipio="<?php echo $row['id'];?>"><?php echo ucwords(strtolower($row['nombre']));?></option>
 													<?php endwhile;?>
 												</select>
 											</div>
 											<div class="form-group classprovincial_u" style="display:none">
 												<label>Establecimiento</label>
 												<select id="selectestablecimiento_u" class="form-control selectpicker show-tick" data-live-search="true" data-show-subtext="true" validate=false>
-													<option disabled selected value> -- seleccione un establecimiento -- </option>
+													<option disabled selected value toggle="0"> -- seleccione un establecimiento -- </option>
 													<?php while($row=mysql_fetch_array($resultado['establecimientos'])): ?>
-														<option value="<?php echo $row['id_municipio'];?>" toggle="<?php echo $row['id'];?>" data-subtext="<?php echo ucwords(strtolower($row['municipio']));?>"><?php echo ucwords(strtolower($row['nombre']));?></option>
+														<option value="<?php echo $row['id_municipio'];?>" toggle="<?php echo $row['id'];?>"><?php echo ucwords(strtolower($row['nombre']));?></option>
 													<?php endwhile;?>
 												</select>
 											</div>
@@ -145,7 +146,7 @@
 							</div>
 						</div>
                             	<center>
-                                	<button class="btn btn-success" style="margin:10px 0 18px 0px" id="buttonupdate" type="button" disabled>Guardar</button>
+                                	<button class="btn btn-success" style="margin:10px 0 18px 0px" id="buttonupdate" type="button">Actualizar</button>
                             	</center>
 					</form>
 				</div>

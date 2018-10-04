@@ -5,7 +5,7 @@
 <html>
      <head>
           <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-          <title>Boleta Nro <?php echo $resultado['boletas']['id'];?></title>
+          <title>Boleta Nro <?php echo $resultado['boletas']['codigo'];?></title>
           <style>
                *{ font-family: verdana, sans-serif !important;}
                #tablamargen td{
@@ -49,15 +49,15 @@
           <?php $responsables="";
                for($i=0;$i< count($resultado["responsables"]);$i++){
                     if ($i==count($resultado["responsables"])-1) {
-                         $responsables=$responsables . $resultado['responsables'][$i]['nombre']." ".$resultado['responsables'][$i]['apellido'];
+                         $responsables=$responsables . ucwords(strtolower($resultado["responsables"][$i]['nombre']))." ".ucwords(strtolower($resultado["responsables"][$i]['apellido']));
                     }else{
-                         $responsables=$responsables . $resultado['responsables'][$i]['nombre']." ".$resultado['responsables'][$i]['apellido']." , ";
+                         $responsables=$responsables . ucwords(strtolower($resultado["responsables"][$i]['nombre']))." ".ucwords(strtolower($resultado["responsables"][$i]['apellido']))." , ";
                     }
                }
           ?>
-          <img src="<?php echo URL;?>public/images/logos/logo.png" width="140px" style="position: absolute;z-index:-100">
-          <p style="text-align:right;margin:0;padding:0;font-size:.9em;font-weight:200">Nro 00<?php echo $resultado['boletas']['id'];?></p>
-          <h4 style="margin:6px 0 0 110px;color:#313131">Servicio Departamental de Salud Potosí</h4>
+          <img src="<?php echo URL;?>public/images/logos/logo.jpg" width="80px" style="position: absolute;z-index:-100">
+          <p style="text-align:right;margin:0;padding:0;font-size:.9em;font-weight:200">Nro <?php echo date('Y - ', strtotime($resultado['boletas']['fecha_de'])).$resultado['boletas']['codigo'];?></p>
+          <h4 style="margin:6px 0 0 110px;color:#797979">Servicio Departamental de Salud Potosí</h4>
           <center><h2 style="margin:10px 0 0 0">Autorización Para Uso de Vehículos</h2></center>
 
           <table width="100%" cellspacing="0" cellpadding="0" style="margin:10px 0 25px 0" id="tablamargen">
@@ -65,7 +65,10 @@
                     <td colspan="2" style="background:#a7a7a7"><h4 style="text-align:center;color:#fff">INFORMACIÓN DEL VIAJE</h4></td>
                </tr>
                <tr>
-                    <td colspan="2"><h4>UNIDAD: <small><?php echo $resultado['boletas']['unidad'];?></small></h4></td>
+                    <td colspan="2"><h4>JEFATURA: <small style="text-transform:lowercase"><?php echo $resultado['boletas']['jefatura'];?></small></h4></td>
+               </tr>
+               <tr>
+                    <td colspan="2"><h4>UNIDAD: <small style="text-transform:lowercase"><?php echo $resultado['boletas']['unidad'];?></small></h4></td>
                </tr>
                <tr>
                     <td colspan="2"><h4>OBJETIVO: <small><?php echo $resultado['boletas']['objetivo'];?></small></h4></td>
@@ -74,16 +77,33 @@
                     <td colspan="2"><h4>RESPONSABLES: <small><?php echo $responsables?></small></h4></td>
                </tr>
                <tr>
-                    <td width="65%"><h4>CHOFER: <small><?php echo $resultado['boletas']['nombre']." (".$resultado['boletas']['brevet'].")";?></small></h4></td>
+                    <td width="65%"><h4>CHOFER: <small><?php echo ucwords(strtolower($resultado["boletas"]['nombre']))." <strong>LICENCIA:</strong>(".$resultado['boletas']['brevet'].")";?></small></h4></td>
                     <td width="35%" style="background:#a7a7a7"><h4 style="text-align:center;color:#fff">INFORMACIÓN DEL VEHÍCULO</h4></td>
                </tr>
                <tr>
-                    <td><h4>LUGAR(ES) :<small><?php echo $resultado['boletas']['lugares'];?></small></h4></td>
-                    <td style="background:#f2f2f2"><h4>TIPO DE VEHÍCULO <small><?php echo $resultado['boletas']['tipo'];?></small></h4></td>
+                    <td>
+                         <h4>LUGAR(ES) :
+                         <small style="text-transform:lowercase">
+                              <?php echo $resultado['boletas']['ciudad']." -  ".$resultado['boletas']['lugares']; ?>
+                              <?php if ($resultado['boletas']['establecimiento']!=null) {
+                                   echo $resultado['boletas']['establecimiento'];
+                              }else{
+                                   if ($resultado['boletas']['municipio']!=null) {
+                                        echo $resultado['boletas']['municipio'];
+                                   }else{
+                                        if ($resultado['boletas']['redsalud']!=null) {
+                                             echo $resultado['boletas']['redsalud'];
+                                        }
+                                   }
+                              } ?>
+                         </small>
+                         </h4>
+                    </td>
+                    <td style="background:#f2f2f2;"><h4>TIPO DE VEHÍCULO <small style="text-transform:lowercase"><?php echo $resultado['boletas']['tipo'];?></small></h4></td>
                </tr>
                <tr>
-                    <td><h4>USO: <small><?php echo $resultado['boletas']['uso'];?></small></h4></td>
-                    <td style="background:#f2f2f2"><h4>MARCA <small><?php echo $resultado['boletas']['marca'];?></small></h4></td>
+                    <td><h4>USO: <small style="text-transform:lowercase"><?php echo $resultado['boletas']['uso'];?></small></h4></td>
+                    <td style="background:#f2f2f2"><h4>MARCA <small style="text-transform:lowercase"><?php echo $resultado['boletas']['marca'];?></small></h4></td>
                </tr>
                <tr>
                     <td><h4>FECHA DE : <small><?php echo date('d - ', strtotime($resultado['boletas']['fecha_de'])).$mesde.date(' - Y', strtotime($resultado['boletas']['fecha_de']))?></small></h4></td>
@@ -91,11 +111,11 @@
                </tr>
                <tr>
                     <td><h4>FECHA HASTA : <small><?php echo date('d - ', strtotime($resultado['boletas']['fecha_hasta'])).$mesa.date(' - Y', strtotime($resultado['boletas']['fecha_hasta']))?></small></h4></td>
-                    <td style="background:#f2f2f2"><h4>COLOR <small><?php echo $resultado['boletas']['color'];?></small></h4></td>
+                    <td style="background:#f2f2f2"><h4>COLOR <small style="text-transform:lowercase"><?php echo $resultado['boletas']['color']."  -  ".$resultado['boletas']['origen'];?></small></h4></td>
                </tr>
 
           </table>
-          <table width="100%"  style="margin:0 0 50px 0">
+          <table width="100%"  style="margin:0 0 40px 0">
                <tr>
                     <td><p>........................................................</p></td>
                     <td><p>........................................................................</p></td>
@@ -113,16 +133,19 @@
           </table>
           <hr style="color:#ebebeb;margin:0;padding:0;border-style: inset;border-width:1px; border-style:dotted;">
 
-          <img src="<?php echo URL;?>public/images/logos/logo.png" width="140px" style="position: absolute;z-index:-100">
-          <p style="text-align:right;margin:40px 0 0 0;padding:0;font-size:.9em;font-weight:200">Nro 00<?php echo $resultado['boletas']['id'];?></p>
-          <h4 style="margin:6px 0 0 110px;color:#313131">Servicio Departamental de Salud Potosí</h4>
+          <img src="<?php echo URL;?>public/images/logos/logo.jpg" width="80px" style="position: absolute;z-index:-100">
+          <p style="text-align:right;margin:40px 0 0 0;padding:0;font-size:.9em;font-weight:200">Nro <?php echo date('Y - ', strtotime($resultado['boletas']['fecha_de'])).$resultado['boletas']['codigo'];?></p>
+          <h4 style="margin:6px 0 0 110px;color:#797979">Servicio Departamental de Salud Potosí</h4>
           <center><h2 style="margin:10px 0 0 0">Autorización Para Uso de Vehículos</h2></center>
           <table width="100%" cellspacing="0" cellpadding="0" style="margin:10px 0 25px 0" id="tablamargen">
                <tr>
                     <td colspan="2" style="background:#a7a7a7"><h4 style="text-align:center;color:#fff">INFORMACIÓN DEL VIAJE</h4></td>
                </tr>
                <tr>
-                    <td colspan="2"><h4>UNIDAD: <small><?php echo $resultado['boletas']['unidad'];?></small></h4></td>
+                    <td colspan="2"><h4>JEFATURA: <small style="text-transform:lowercase"><?php echo $resultado['boletas']['jefatura'];?></small></h4></td>
+               </tr>
+               <tr>
+                    <td colspan="2"><h4>UNIDAD: <small style="text-transform:lowercase"><?php echo $resultado['boletas']['unidad'];?></small></h4></td>
                </tr>
                <tr>
                     <td colspan="2"><h4>OBJETIVO: <small><?php echo $resultado['boletas']['objetivo'];?></small></h4></td>
@@ -131,16 +154,33 @@
                     <td colspan="2"><h4>RESPONSABLES: <small><?php echo $responsables?></small></h4></td>
                </tr>
                <tr>
-                    <td width="65%"><h4>CHOFER: <small><?php echo $resultado['boletas']['nombre']." (".$resultado['boletas']['brevet'].")";?></small></h4></td>
+                    <td width="65%"><h4>CHOFER: <small><?php echo $resultado['boletas']['nombre']." <strong>LICENCIA:</strong>(".$resultado['boletas']['brevet'].")";?></small></h4></td>
                     <td width="35%" style="background:#a7a7a7"><h4 style="text-align:center;color:#fff">INFORMACIÓN DEL VEHÍCULO</h4></td>
                </tr>
                <tr>
-                    <td><h4>LUGAR(ES) :<small><?php echo $resultado['boletas']['lugares'];?></small></h4></td>
-                    <td style="background:#f2f2f2"><h4>TIPO DE VEHÍCULO <small><?php echo $resultado['boletas']['tipo'];?></small></h4></td>
+                    <td>
+                         <h4>LUGAR(ES) :
+                         <small style="text-transform:lowercase">
+                              <?php echo $resultado['boletas']['ciudad']." -  ".$resultado['boletas']['lugares']; ?>
+                              <?php if ($resultado['boletas']['establecimiento']!=null) {
+                                   echo $resultado['boletas']['establecimiento'];
+                              }else{
+                                   if ($resultado['boletas']['municipio']!=null) {
+                                        echo $resultado['boletas']['municipio'];
+                                   }else{
+                                        if ($resultado['boletas']['redsalud']!=null) {
+                                             echo $resultado['boletas']['redsalud'];
+                                        }
+                                   }
+                              } ?>
+                         </small>
+                         </h4>
+                    </td>
+                    <td style="background:#f2f2f2"><h4>TIPO DE VEHÍCULO <small style="text-transform:lowercase"><?php echo $resultado['boletas']['tipo'];?></small></h4></td>
                </tr>
                <tr>
                     <td><h4>USO: <small><?php echo $resultado['boletas']['uso'];?></small></h4></td>
-                    <td style="background:#f2f2f2"><h4>MARCA <small><?php echo $resultado['boletas']['marca'];?></small></h4></td>
+                    <td style="background:#f2f2f2"><h4>MARCA <small style="text-transform:lowercase"><?php echo $resultado['boletas']['marca'];?></small></h4></td>
                </tr>
                <tr>
                     <td><h4>FECHA DE : <small><?php echo date('d - ', strtotime($resultado['boletas']['fecha_de'])).$mesde.date(' - Y', strtotime($resultado['boletas']['fecha_de']))?></small></h4></td>
@@ -148,7 +188,7 @@
                </tr>
                <tr>
                     <td><h4>FECHA HASTA : <small><?php echo date('d - ', strtotime($resultado['boletas']['fecha_hasta'])).$mesa.date(' - Y', strtotime($resultado['boletas']['fecha_hasta']))?></small></h4></td>
-                    <td style="background:#f2f2f2"><h4>COLOR <small><?php echo $resultado['boletas']['color'];?></small></h4></td>
+                    <td style="background:#f2f2f2"><h4>COLOR <small style="text-transform:lowercase"><?php echo $resultado['boletas']['color']."  -  ".$resultado['boletas']['origen'];?></small></h4></td>
                </tr>
 
           </table>

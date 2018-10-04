@@ -120,6 +120,7 @@
 											<div class="form-group classdepartamental">
 												<label>Ciudad</label>
 												<select id="selectdepartamento" class="form-control">
+													<option value="potosi">Potosí</option>
 													<option value="lapaz">La Paz</option>
 													<option value="cochabamba">Cochabamba</option>
 													<option value="santacruz">Santa Cruz</option>
@@ -146,7 +147,7 @@
 											<div class="form-group classprovincial" style="display:none">
 												<label>Municipio</label>
 												<select id="selectmunicipio" class="form-control selectpicker show-tick" data-live-search="true" data-show-subtext="true" validate=true>
-													<option disabled selected value> -- seleccione un municipio -- </option>
+													<option disabled selected value municipio="0"> -- seleccione un municipio -- </option>
 													<?php while($row=mysql_fetch_array($resultado['municipios'])): ?>
 														<option value="<?php echo $row['id_redsalud'];?>" municipio="<?php echo $row['id'];?>"><?php echo ucwords(strtolower($row['nombre']));?></option>
 													<?php endwhile;?>
@@ -155,7 +156,7 @@
 											<div class="form-group classprovincial" style="display:none">
 												<label>Establecimiento</label>
 												<select id="selectestablecimiento" class="form-control selectpicker show-tick" data-live-search="true" data-show-subtext="true">
-													<option disabled selected value> -- seleccione un establecimiento -- </option>
+													<option disabled selected value toggle="0"> -- seleccione un establecimiento -- </option>
 													<?php while($row=mysql_fetch_array($resultado['establecimientos'])): ?>
 														<option value="<?php echo $row['id_municipio'];?>" toggle="<?php echo $row['id'];?>"><?php echo ucwords(strtolower($row['nombre']));?></option>
 													<?php endwhile;?>

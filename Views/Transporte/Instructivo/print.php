@@ -22,22 +22,22 @@
           </style>
      </head>
      <body  style="margin:0 0 0 35px">
-          <img src="<?php echo URL;?>public/images/logos/logo.png" width="140px" style="position: absolute;">
+          <img src="<?php echo URL;?>public/images/logos/logo.jpg" width="90px" style="position: absolute;">
           <table width="100%" style="margin:30px 0 0 0">
                <tr>
                     <td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td>
                     <td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td>
                </tr>
                <tr>
-                    <td colspan="10"><div align="center"> <u><h2 style="line-height:30px">INSTRUCTIVO DE VIAJE <br> SEDES / UNI / TRANSP./ 00<?php echo $resultado['id_chofer']." / ".date('Ymd', strtotime($resultado['fecha']))?></h2></u></div><br><br></td>
+                    <td colspan="10"><div align="center"> <u><h2 style="line-height:30px">INSTRUCTIVO DE VIAJE <br> SEDES / UNI / TRANSP./ 0<?php echo $resultado['codigo']." / ".date('Y', strtotime($resultado['fecha']))?></h2></u></div><br><br></td>
                </tr>
                <tr>
                     <td colspan="2"><b>A : </b> <br></td>
-                    <td colspan="8">Sr. <?php echo $resultado['nombre'];?><br><b>CONDUCTOR SEDES-POTOSI</b><br><br></td>
+                    <td colspan="8">Sr. <?php echo ucwords(strtolower($resultado['nombre']))?><br><b>CONDUCTOR SEDES-POTOSI</b><br><br></td>
                </tr>
                <tr>
                     <td colspan="2"><b>DE:</b><br> </td>
-                    <td colspan="8"> Sr. Jhonny Rivera Morales <br> <b>RESPONSABLE TRANSPORTES SEDES POTOSI</b><br><br></td>
+                    <td colspan="8"> Sr. <?php echo ucwords(strtolower($resultado['usuario']))?><br> <b>RESPONSABLE TRANSPORTES SEDES POTOSI</b><br><br></td>
                </tr>
                <tr>
                     <td colspan="2"><b>FECHA: </b></td>

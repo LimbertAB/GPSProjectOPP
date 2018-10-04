@@ -10,8 +10,8 @@
 							<h6 style="margin:0;color:#dcdcdc;font-weight: 400;text-transform:lowercase">Chofer</h6>
 	                           	<h5  style="color: #abaaaa;margin-top:0;margin-bottom:0px;text-transform:uppercase;z-index:900">nombre del usuario</h5>
 							<p style="margin:0 0 5px 0;color:#ced161;font-weight: 700;">CI: 23423434</p>
+							<h4 style="margin:0 0 0 0;color:#fff;font-weight:400">RESPONSABLES:</h4>
 						</center>
-						<h4 style="margin:0 0 5px 30px;color:#fff;font-weight:400">RESPONSABLES:</h4>
 						<div class="row" style="margin:0 0 10px 0" id="row_responsables">
 							<div class="col-md-6">
 								<h5 style="margin:0 0 0 20px;color:#a7a7a7;font-weight:200"><strong>1. </strong> nobre del #persona</h5>
@@ -41,14 +41,14 @@
                          </div>
 					<div class="col-md-6">
                               <center>
-	                           	<img src="<?php echo URL;?>public/images/icons/32/hospital.png"  style="padding:15px 0 5px 0;margin-top:0px">
-	                           	<br><p class="uestablecimiento" style="line-height: .95em !important;color:#797979">reterter</p>
-	                       	</center>
-                         </div>
-                         <div class="col-md-6">
-                              <center>
 	                           	<img src="<?php echo URL;?>public/images/icons/32/placeholder.png"  style="padding:15px 0 5px 0;margin-top:0px">
 		                         <br><p class="uciudad" style="line-height: .95em !important;text-transform: lowercase;color:#797979">reterterte</p>
+	                       	</center>
+                         </div>
+					<div class="col-md-6">
+                              <center>
+	                           	<img src="<?php echo URL;?>public/images/icons/32/hospital.png"  style="padding:15px 0 5px 0;margin-top:0px">
+	                           	<br><p class="uestablecimiento" style="line-height: .95em !important;color:#797979">reterter</p>
 	                       	</center>
                          </div>
 					<div class="col-md-6">
